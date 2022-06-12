@@ -26,10 +26,10 @@ Korisnici: Admin, Klijent, Menadzer.
 - O klijentu se pamte podaci iz licne karte.   
 - Klijent moze da bude pravno ili fizicko lice. Fizickim licima se cena racuna na licu mesta. Za pravna lica postoje pogodnosti ili mogu 
 da plate kasnije.   
+- Za klijenta se pamti stanje (prepaid dopuna)
 
 ## RFID Kartica
 
-- Kartica ima stanje.   
 - Kartica mora da se mahne pa se otvori poklopac.   
 - Prepaid klijent dobija pogodnosti.   
 - 1 automobil je jedna kartica, a 1 korisnik moze imati vise kartica.    
@@ -45,15 +45,15 @@ da plate kasnije.
 
 ## Rezervacija
 
-- Unapred se racuna cena kada rezervises.   
-- Najranije moze mesec dana unapred da se rezervise.   
+- Unapred se racuna cena kada rezervise.   
+- Najkasnije moze mesec dana unapred da se rezervise.   
 - Slotovi za zakazivanje su na 15 minuta (slot moze da se zakaze 4 puta u satu).   
 - Rezervacije za mesto, ne za pumpu.   
 - Odredjeni procenat punjaca ne sme da bude rezervisan (ne sme sve da bude rezervisano).   
-- Postoje penali za ostajanje duze nego sto bi trebalo i za kad ne dodjes a zakazao si.   
-- Kada zakazes valjalo bi da se preracuna koliko ce korisnik da ostane (u zavisnosti od snage).   
+- Postoje penali za prekovremeno ostajanje na parking mestu i za nedolazak u rezervisanom terminu.   
+- Kada klijent zakaze, preracunava se koliko ce ostati (u zavisnosti od snage).   
 - Ako ne dodje na rezervaciju, dolazi mu obavestenje.   
-- Otkazivanje do 15 min pre pocetka slota. Ako se ne dodje, ceka se 15 minuta pa se slot oslobadja.   
+- Otkazivanje do 15 min pre pocetka slota. Ako ne dodje, ceka se 15 minuta pa se slot oslobadja.   
 
 ## Punjac
 
