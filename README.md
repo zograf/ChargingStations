@@ -1,4 +1,4 @@
-# Pumpa za struju lol
+# Pumpa za struju
 
 ### Specifikacija
 
@@ -27,11 +27,10 @@ Korisnici: Admin, Klijent, Menadzer.
 - Klijent moze da bude pravno ili fizicko lice. Fizickim licima se cena racuna na licu mesta. Za pravna lica postoje pogodnosti ili mogu 
 da plate kasnije.   
 - Za klijenta se pamti stanje (prepaid dopuna)
+- Prepaid klijent dobija pogodnosti (dobije procenat novca bonusa nakon uplate).   
 
 ## RFID Kartica
 
-- Kartica mora da se mahne pa se otvori poklopac.   
-- Prepaid klijent dobija pogodnosti.   
 - 1 automobil je jedna kartica, a 1 korisnik moze imati vise kartica.    
 
 ## Cena
@@ -45,28 +44,28 @@ da plate kasnije.
 
 ## Rezervacija
 
-- Unapred se racuna cena kada rezervise.   
+- Unapred se racuna cena kada klijent rezervise termin.   
 - Najkasnije moze mesec dana unapred da se rezervise.   
 - Slotovi za zakazivanje su na 15 minuta (slot moze da se zakaze 4 puta u satu).   
 - Rezervacije za mesto, ne za pumpu.   
 - Odredjeni procenat punjaca ne sme da bude rezervisan (ne sme sve da bude rezervisano).   
 - Postoje penali za prekovremeno ostajanje na parking mestu i za nedolazak u rezervisanom terminu.   
-- Kada klijent zakaze, preracunava se koliko ce ostati (u zavisnosti od snage).   
+- Kada klijent zakaze mesto, preracunava se koliko ce ostati (u zavisnosti od snage).   
 - Ako ne dodje na rezervaciju, dolazi mu obavestenje.   
 - Otkazivanje do 15 min pre pocetka slota. Ako ne dodje, ceka se 15 minuta pa se slot oslobadja.   
 
 ## Punjac
 
 - OCPP protokol.   
-- Punjaci treba da se javljaju da li su zivi (periodicno).   
+- Punjaci se javljaju da li su zivi (periodicno).   
 - Zavisno od automobila zavisi i trajanje punjenja.   
 - Jedan punjac je 1 ili 2 parking mesta.   
-- Valjalo bi da se ne javljaju svi u istom trenutku jer ne zelimo da DDOSujemo sami sebe.  
+- Ne javljaju se svi u istom trenutku jer ne zelimo da DDOSujemo sami sebe.  
 
 ## Kvar
 
-- Ako se desi kvar, dajemo mu sledecu slobodnu pumpu ako postoji, ako ne postoji, dobija besplatno punjenje.   
-- Ako se pokvari pumpa pre nego sto dodje, stize notifikacija i prebacuje se na drugo mesto.   
+- Ako se desi kvar, dajemo klijentu sledecu slobodnu pumpu ako postoji, ako ne postoji, dobija besplatno punjenje.   
+- Ako se pokvari pumpa pre nego sto klijent dodje, stize mu notifikacija i prebacuje se na drugo mesto.   
 
 ## Opste
 - Bekap svih podataka.   
