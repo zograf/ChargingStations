@@ -23,4 +23,6 @@ public class Vehicle
     
     [Column("is_deleted")]
     public bool IsDeleted { get; set; }
+    
+    public Card Card { get; set; }
 }

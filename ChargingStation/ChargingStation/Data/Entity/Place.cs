@@ -14,4 +14,6 @@ public class Place
     
     [Column("is_deleted")]
     public bool IsDeleted { get; set; }
+    
+    public List<Address> Addresses { get; set; }
 }

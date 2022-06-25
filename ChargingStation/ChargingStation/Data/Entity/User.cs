@@ -14,4 +14,6 @@ public class User
     
     [Column("is_deleted")]
     public bool IsDeleted { get; set; }
+    
+    public Credentials Credentials { get; set; }
 }

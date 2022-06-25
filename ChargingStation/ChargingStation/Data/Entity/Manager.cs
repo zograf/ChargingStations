@@ -14,4 +14,6 @@ public class Manager
     
     [Column("station_id")]
     public decimal StationId { get; set; }
+    
+    public User User { get; set; }
 }

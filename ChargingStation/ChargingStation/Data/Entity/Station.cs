@@ -14,4 +14,9 @@ public class Station
     
     [Column("is_deleted")]
     public bool IsDeleted { get; set; }
+    
+    public Manager Manager { get; set; }
+    public Address Address { get; set; }
+    public List<BasePrice> BasePrices { get; set; }
+    public List<ChargingSpot> ChargingSpots { get; set; }
 }

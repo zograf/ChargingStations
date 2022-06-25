@@ -17,4 +17,6 @@ public class ChargingSpot
     
     [Column("is_deleted")]
     public bool IsDeleted { get; set; }
+    
+    public List<Charging> Chargings { get; set; }
 }

@@ -23,4 +23,7 @@ public class Card
     
     [Column("is_deleted")]
     public bool IsDeleted { get; set; }
+    
+    public List<Charging> Chargings { get; set; }
+    public List<Reservation> Reservations { get; set; }
 }

@@ -35,4 +35,6 @@ public class Charging
     
     [Column("is_deleted")]
     public bool IsDeleted { get; set; }
+
+    public Reservation Reservation { get; set; }
 }
