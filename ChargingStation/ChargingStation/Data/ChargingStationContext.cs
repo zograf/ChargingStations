@@ -60,7 +60,7 @@ public class ChargingStationContext: DbContext
             .HasOne(x => x.Address);
         
         modelBuilder.Entity<Station>()
-            .HasOne(x => x.BasePrices);
+            .HasMany(x => x.BasePrices);
         
         modelBuilder.Entity<Station>()
             .HasOne(x => x.Manager);

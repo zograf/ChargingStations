@@ -12,4 +12,6 @@ public class TransactionDomainModel
     
     public decimal ClientId { get; set; }
     
-    public bool IsDeleted { get; set; }}
+    public bool IsDeleted { get; set; }
+    
+}

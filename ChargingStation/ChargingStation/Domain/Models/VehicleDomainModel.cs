@@ -14,4 +14,6 @@ public class VehicleDomainModel
     
     public bool IsDeleted { get; set; }
     
-    public CardDomainModel Card { get; set; }}
+    public CardDomainModel Card { get; set; }
+    
+}

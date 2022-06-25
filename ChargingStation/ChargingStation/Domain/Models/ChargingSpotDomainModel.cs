@@ -10,4 +10,8 @@ public class ChargingSpotDomainModel
     
     public bool IsDeleted { get; set; }
     
-    public List<ChargingDomainModel> Chargings { get; set; }}
+    public bool IsReservable { get; set; }
+    
+    public List<ChargingDomainModel> Chargings { get; set; }
+    
+}

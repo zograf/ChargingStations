@@ -15,4 +15,6 @@ public class CardDomainModel
     public bool IsDeleted { get; set; }
     
     public List<ChargingDomainModel> Chargings { get; set; }
-    public List<ReservationDomainModel> Reservations { get; set; }}
+    public List<ReservationDomainModel> Reservations { get; set; }
+    
+}

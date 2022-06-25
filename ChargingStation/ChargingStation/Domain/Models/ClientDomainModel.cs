@@ -20,4 +20,6 @@ public class ClientDomainModel
     
     public UserDomainModel User { get; set; }
     public List<TransactionDomainModel> Transactions { get; set; }
-    public List<VehicleDomainModel> Vehicles { get; set; }}
+    public List<VehicleDomainModel> Vehicles { get; set; }
+    
+}

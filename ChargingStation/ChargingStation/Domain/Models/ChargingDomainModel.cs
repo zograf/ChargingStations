@@ -22,4 +22,6 @@ public class ChargingDomainModel
     
     public bool IsDeleted { get; set; }
 
-    public ReservationDomainModel Reservation { get; set; }}
+    public ReservationDomainModel Reservation { get; set; }
+    
+}

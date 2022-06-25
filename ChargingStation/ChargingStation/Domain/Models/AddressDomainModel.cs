@@ -12,4 +12,6 @@ public class AddressDomainModel
     
     public decimal PlaceId { get; set; }
     
-    public bool IsDeleted { get; set; }}
+    public bool IsDeleted { get; set; }
+    
+}

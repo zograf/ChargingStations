@@ -18,5 +18,8 @@ public class ChargingSpot
     [Column("is_deleted")]
     public bool IsDeleted { get; set; }
     
+    [Column("can_be_reserved")]
+    public bool IsReservable { get; set; }
+    
     public List<Charging> Chargings { get; set; }
 }

@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 using ChargingStation.Data;
+using ChargingStation.Repository;
+using ChargingStation.Service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,10 +20,10 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 
 
 //Repositories
-//builder.Services.AddTransient<IAntiTrollRepository, AntiTrollRepository>();
+builder.Services.AddTransient<IAddressRepository, AddressRepository>();
 
 //Domain
-//builder.Services.AddTransient<IAntiTrollService, AntiTrollService>();
+builder.Services.AddTransient<IAddressService, AddressService>();
 
 
 var connectionString = builder.Configuration.GetConnectionString("ChargingStationConnection");
