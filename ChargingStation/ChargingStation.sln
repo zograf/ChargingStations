@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChargingStation", "ChargingStation\ChargingStation.csproj", "{667D1881-4AE3-4112-B4AA-1E51C171002D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{667D1881-4AE3-4112-B4AA-1E51C171002D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{667D1881-4AE3-4112-B4AA-1E51C171002D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{667D1881-4AE3-4112-B4AA-1E51C171002D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{667D1881-4AE3-4112-B4AA-1E51C171002D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
