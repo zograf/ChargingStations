@@ -1,18 +1,20 @@
 using ChargingStation.Data.Entity;
 using ChargingStation.Domain.Models;
+using ChargingStation.Domain.Utilities;
 using ChargingStation.Repository;
 
 namespace ChargingStation.Service;
 
-public interface IBasePriceService : IService<BasePriceDomainModel>
+public interface IPriceService : IService<BasePriceDomainModel>
 {
+    public Task<decimal> GetCurrentPrice(decimal stationId);
 }
 
-public class BasePriceService : IBasePriceService
+public class PriceService : IPriceService
 {
     private readonly IBasePriceRepository _basePriceRepository;
 
-    public BasePriceService(IBasePriceRepository basePriceRepository)
+    public PriceService(IBasePriceRepository basePriceRepository)
     {
         _basePriceRepository = basePriceRepository;
     }
@@ -37,5 +39,13 @@ public class BasePriceService : IBasePriceService
             DayAmount = basePrice.DayAmount,
             NightAmount = basePrice.NightAmount
         };
+    }
+
+    public async Task<decimal> GetCurrentPrice(decimal stationId)
+    {
+        BasePrice basePrice = await _basePriceRepository.GetByStation(stationId);
+        decimal price;
+        price = DateTimeUtils.IsDay() ? basePrice.DayAmount : basePrice.NightAmount;
+        return price;
     }
 }

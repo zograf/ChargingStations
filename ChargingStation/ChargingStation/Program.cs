@@ -38,7 +38,7 @@ builder.Services.AddTransient<IVehicleRepository, VehicleRepository>();
 
 //Domain
 builder.Services.AddTransient<IAddressService, AddressService>();
-builder.Services.AddTransient<IBasePriceService, BasePriceService>();
+builder.Services.AddTransient<IPriceService, PriceService>();
 builder.Services.AddTransient<ICardService, CardService>();
 builder.Services.AddTransient<IChargingService, ChargingService>();
 builder.Services.AddTransient<IChargingSpotService, ChargingSpotService>();

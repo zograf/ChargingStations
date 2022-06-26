@@ -1,3 +1,4 @@
+using ChargingStation.Domain.DTOs;
 using ChargingStation.Domain.Models;
 using ChargingStation.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -20,5 +21,12 @@ public class ReservationController : ControllerBase
     {
         List<ReservationDomainModel> reservations = await _reservationService.GetAll();
         return Ok(reservations);
+    }
+    [HttpPost]
+    [Route("create")]
+    public async Task<ActionResult<PlaceDomainModel>> CreateReservation(ReservationDTO dto)
+    {
+        ReservationDomainModel reservation = await _reservationService.CreateReservation(dto);
+        return Ok(reservation);
     }
 }
