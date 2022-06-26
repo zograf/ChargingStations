@@ -22,4 +22,5 @@ public class ChargingSpot
     public bool IsReservable { get; set; }
     
     public List<Charging> Chargings { get; set; }
+    public List<Reservation> Reservations{ get; set; }
 }

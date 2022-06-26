@@ -73,6 +73,9 @@ public class ChargingStationContext: DbContext
         
         modelBuilder.Entity<Vehicle>()
             .HasOne(x => x.Card);
+
+        modelBuilder.Entity<ChargingSpot>()
+            .HasMany(x => x.Reservations);
         
 
         modelBuilder.Entity<Address>().HasKey(x => x.Id);
