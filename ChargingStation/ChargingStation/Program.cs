@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using ChargingStation.Data;
+using ChargingStation.Domain.Utilities;
 using ChargingStation.Repository;
 using ChargingStation.Service;
 using Microsoft.EntityFrameworkCore;
@@ -53,24 +54,12 @@ builder.Services.AddCors(feature =>
                                     .AllowCredentials()
                                 ));
 
-
-//builder.Services.AddCronJob<CronJobNotifications>(c =>
-//{
-//    c.TimeZoneInfo = TimeZoneInfo.Local;
-//    c.CronExpression = @"*/5 * * * *";
-//});
-//MailSender sender = new MailSender("usi2022hospital@gmailcom", "lazzarmilanovic@gmail.com");
-//sender.SetBody("test");
-//sender.SetSubject("test");
-//sender.Send();
-
-
 // Cron jobs
-//builder.Services.AddCronJob<CronJobNotifications>(c =>
-//{
-//    c.TimeZoneInfo = TimeZoneInfo.Local;
-//    c.CronExpression = @"* * * * *";
-//});
+builder.Services.AddCronJob<CronJobReservationValidator>(c =>
+{
+    c.TimeZoneInfo = TimeZoneInfo.Local;
+    c.CronExpression = @"5 * * * *";
+});
 
 
 var app = builder.Build();

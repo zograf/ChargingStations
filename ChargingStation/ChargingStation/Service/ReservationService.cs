@@ -6,6 +6,7 @@ namespace ChargingStation.Service;
 
 public interface IReservationService : IService<ReservationDomainModel>
 {
+    public Task<List<ClientDomainModel>> CheckValidity();
 }
 
 public class ReservationService : IReservationService
@@ -24,6 +25,11 @@ public class ReservationService : IReservationService
         foreach (var item in reservations)
             result.Add(ParseToModel(item));
         return result;
+    }
+    
+    public async Task<List<ClientDomainModel>> CheckValidity()
+    {
+        return new List<ClientDomainModel>();
     }
 
     public static ReservationDomainModel ParseToModel(Reservation reservation)
