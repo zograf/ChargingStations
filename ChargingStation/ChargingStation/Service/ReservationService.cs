@@ -59,7 +59,7 @@ public class ReservationService : IReservationService
     public async Task<ReservationDomainModel> CreateReservation(ReservationDTO dto)
     {
         Reservation reservation = await FindReservation(dto.StartTime, dto.EndTime, dto.CardId);
-        if (reservation == null)
+        if (reservation is null)
             throw new Exception("Cannot appoint reservation in that time, no available slots");
         _reservationRepository.Post(reservation);
         _reservationRepository.Save();
