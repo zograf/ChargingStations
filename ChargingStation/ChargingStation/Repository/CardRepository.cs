@@ -21,6 +21,7 @@ public class CardRepository : ICardRepository
     public async Task<List<Card>> GetAll()
     {
         return await _chargingStationContext.Cards
+            .Where(x=>!x.IsDeleted)
             .ToListAsync(); 
     }
 
@@ -32,7 +33,7 @@ public class CardRepository : ICardRepository
     public async Task<Card> GetById(decimal id)
     {
         return await _chargingStationContext.Cards
-            .Where(x=>x.Id == id)
+            .Where(x=>x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(); 
     }
 

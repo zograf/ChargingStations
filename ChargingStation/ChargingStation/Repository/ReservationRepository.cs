@@ -21,6 +21,7 @@ public class ReservationRepository : IReservationRepository
     public async Task<List<Reservation>> GetAll()
     {
         return await _chargingStationContext.Reservations
+            .Where(x=>!x.IsDeleted)
             .ToListAsync(); 
     }
 
@@ -32,7 +33,7 @@ public class ReservationRepository : IReservationRepository
     public async Task<Reservation> GetById(decimal id)
     {
         return await _chargingStationContext.Reservations
-            .Where(x=>x.Id == id)
+            .Where(x=>x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(); 
     }
 

@@ -21,6 +21,7 @@ public class ChargingSpotRepository : IChargingSpotRepository
     public async Task<List<ChargingSpot>> GetAll()
     {
         return await _chargingStationContext.ChargingSpots
+            .Where(x=>!x.IsDeleted)
             .ToListAsync(); 
     }
 
@@ -32,7 +33,7 @@ public class ChargingSpotRepository : IChargingSpotRepository
     public async Task<ChargingSpot> GetById(decimal id)
     {
         return await _chargingStationContext.ChargingSpots
-            .Where(x=>x.Id == id)
+            .Where(x=>x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(); 
     }
 
