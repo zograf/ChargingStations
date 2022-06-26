@@ -79,7 +79,7 @@ public class ReservationService : IReservationService
                     ChargingSpotId = spot.Id,
                     CardId = cardId,
                     IsDeleted = false,
-                    UnitPrice = await _priceService.GetCurrentPrice(spot.StationId)
+                    UnitPrice = await _priceService.GetPrice(spot.StationId, start)
                 };
         }
         return null;

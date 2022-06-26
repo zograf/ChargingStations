@@ -7,7 +7,7 @@ namespace ChargingStation.Service;
 
 public interface IPriceService : IService<BasePriceDomainModel>
 {
-    public Task<decimal> GetCurrentPrice(decimal stationId);
+    public Task<decimal> GetPrice(decimal stationId, DateTime timeOfCharging);
 }
 
 public class PriceService : IPriceService
@@ -41,11 +41,11 @@ public class PriceService : IPriceService
         };
     }
 
-    public async Task<decimal> GetCurrentPrice(decimal stationId)
+    public async Task<decimal> GetPrice(decimal stationId, DateTime timeOfCharging)
     {
         BasePrice basePrice = await _basePriceRepository.GetByStation(stationId);
         decimal price;
-        price = DateTimeUtils.IsDay() ? basePrice.DayAmount : basePrice.NightAmount;
+        price = DateTimeUtils.IsDay(timeOfCharging) ? basePrice.DayAmount : basePrice.NightAmount;
         return price;
     }
 }
