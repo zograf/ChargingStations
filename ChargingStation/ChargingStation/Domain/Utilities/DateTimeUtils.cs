@@ -24,9 +24,9 @@
             return (time1 < time2 ? time1 : time2);
         }
 
-        public static bool IsDay()
+        public static bool IsDay(DateTime time)
         {
-            return DateTime.Now.Hour < 20 && DateTime.Now.Hour >= 6  ? true: false;
+            return time.Hour < 20 && time.Hour >= 6  ? true: false;
         }
     }
 }

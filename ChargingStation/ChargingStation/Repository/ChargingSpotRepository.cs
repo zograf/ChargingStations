@@ -7,6 +7,7 @@ namespace ChargingStation.Repository;
 
 public interface IChargingSpotRepository : IRepository<ChargingSpot>
 {
+    public Task<IEnumerable<ChargingSpot>> GetByStation(decimal stationId);
 }
 
 public class ChargingSpotRepository : IChargingSpotRepository
@@ -59,5 +60,10 @@ public class ChargingSpotRepository : IChargingSpotRepository
     {
         item.IsDeleted = true;
         return Update(item);
+    }
+
+    public async Task<IEnumerable<ChargingSpot>> GetByStation(decimal stationId)
+    {
+        return await _chargingStationContext.ChargingSpots.Where(x => x.StationId == stationId).ToListAsync();
     }
 }
