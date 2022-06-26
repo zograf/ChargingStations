@@ -12,6 +12,8 @@ public class ChargingSpotDomainModel
     
     public bool IsReservable { get; set; }
     
+    public decimal State { get; set; }
+    
     public List<ChargingDomainModel> Chargings { get; set; }
     
 }

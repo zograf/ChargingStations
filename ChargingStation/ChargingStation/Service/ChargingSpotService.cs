@@ -34,7 +34,8 @@ public class ChargingSpotService : IChargingSpotService
             IsDeleted = chargingSpot.IsDeleted,
             IsReservable = chargingSpot.IsReservable,
             StationId = chargingSpot.StationId,
-            SerialNumber = chargingSpot.SerialNumber
+            SerialNumber = chargingSpot.SerialNumber,
+            State = chargingSpot.State
         };
 
         chargingSpotModel.Chargings = new List<ChargingDomainModel>();

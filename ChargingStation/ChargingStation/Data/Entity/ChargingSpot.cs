@@ -21,5 +21,8 @@ public class ChargingSpot
     [Column("can_be_reserved")]
     public bool IsReservable { get; set; }
     
+    [Column("spot_state")]
+    public decimal State { get; set; }
+    
     public List<Charging> Chargings { get; set; }
 }
