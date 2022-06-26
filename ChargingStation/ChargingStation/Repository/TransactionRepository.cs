@@ -21,6 +21,7 @@ public class TransactionRepository : ITransactionRepository
     public async Task<List<Transaction>> GetAll()
     {
         return await _chargingStationContext.Transactions
+            .Where(x=>!x.IsDeleted)
             .ToListAsync(); 
     }
 
@@ -32,7 +33,7 @@ public class TransactionRepository : ITransactionRepository
     public async Task<Transaction> GetById(decimal id)
     {
         return await _chargingStationContext.Transactions
-            .Where(x=>x.Id == id)
+            .Where(x=>x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(); 
     }
 

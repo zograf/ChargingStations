@@ -21,6 +21,7 @@ public class StationRepository : IStationRepository
     public async Task<List<Station>> GetAll()
     {
         return await _chargingStationContext.Stations
+            .Where(x=>!x.IsDeleted)
             .ToListAsync(); 
     }
 
@@ -32,7 +33,7 @@ public class StationRepository : IStationRepository
     public async Task<Station> GetById(decimal id)
     {
         return await _chargingStationContext.Stations
-            .Where(x=>x.Id == id)
+            .Where(x=>x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(); 
     }
 

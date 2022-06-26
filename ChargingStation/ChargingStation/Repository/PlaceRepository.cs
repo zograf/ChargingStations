@@ -21,6 +21,7 @@ public class PlaceRepository : IPlaceRepository
     public async Task<List<Place>> GetAll()
     {
         return await _chargingStationContext.Places
+            .Where(x=>!x.IsDeleted)
             .ToListAsync(); 
     }
 
@@ -32,7 +33,7 @@ public class PlaceRepository : IPlaceRepository
     public async Task<Place> GetById(decimal id)
     {
         return await _chargingStationContext.Places
-            .Where(x=>x.Id == id)
+            .Where(x=>x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(); 
     }
 

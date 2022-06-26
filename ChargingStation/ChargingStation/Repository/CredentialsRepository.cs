@@ -21,6 +21,7 @@ public class CredentialsRepository : ICredentialsRepository
     public async Task<List<Credentials>> GetAll()
     {
         return await _chargingStationContext.Credentials
+            .Where(x=>!x.IsDeleted)
             .ToListAsync(); 
     }
 
@@ -32,7 +33,7 @@ public class CredentialsRepository : ICredentialsRepository
     public async Task<Credentials> GetById(string id)
     {
         return await _chargingStationContext.Credentials
-            .Where(x=>x.Username == id)
+            .Where(x=>x.Username == id && !x.IsDeleted)
             .FirstOrDefaultAsync(); 
     }
 

@@ -22,6 +22,7 @@ public class BasePriceRepository : IBasePriceRepository
     public async Task<List<BasePrice>> GetAll()
     {
         return await _chargingStationContext.BasePrices
+            .Where(x=>!x.IsDeleted)
             .ToListAsync(); 
     }
     
@@ -33,7 +34,7 @@ public class BasePriceRepository : IBasePriceRepository
     public async Task<BasePrice> GetById(decimal id)
     {
         return await _chargingStationContext.BasePrices
-            .Where(x=>x.Id == id)
+            .Where(x=>x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(); 
     }
 

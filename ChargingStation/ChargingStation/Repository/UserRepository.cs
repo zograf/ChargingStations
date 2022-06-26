@@ -21,6 +21,7 @@ public class UserRepository : IUserRepository
     public async Task<List<User>> GetAll()
     {
         return await _chargingStationContext.Users
+            .Where(x=>!x.IsDeleted)
             .ToListAsync(); 
     }
 
@@ -32,7 +33,7 @@ public class UserRepository : IUserRepository
     public async Task<User> GetById(decimal id)
     {
         return await _chargingStationContext.Users
-            .Where(x=>x.Id == id)
+            .Where(x=>x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(); 
     }
 

@@ -19,7 +19,6 @@ namespace ChargingStation.Domain.Utilities
                 IReservationService reservationService = scope.ServiceProvider.GetRequiredService<IReservationService>();
                 List<ClientDomainModel> clients = await reservationService.CheckValidity();
                 // TODO: Do something
-                Console.WriteLine("HELLO");
             }
         }
     }

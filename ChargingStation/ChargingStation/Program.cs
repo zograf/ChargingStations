@@ -22,9 +22,35 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 
 //Repositories
 builder.Services.AddTransient<IAddressRepository, AddressRepository>();
+builder.Services.AddTransient<IBasePriceRepository, BasePriceRepository>();
+builder.Services.AddTransient<ICardRepository, CardRepository>();
+builder.Services.AddTransient<IChargingRepository, ChargingRepository>();
+builder.Services.AddTransient<IChargingSpotRepository, ChargingSpotRepository>();
+builder.Services.AddTransient<IClientRepository, ClientRepository>();
+builder.Services.AddTransient<ICredentialsRepository, CredentialsRepository>();
+builder.Services.AddTransient<IManagerRepository, ManagerRepository>();
+builder.Services.AddTransient<IPlaceRepository, PlaceRepository>();
+builder.Services.AddTransient<IReservationRepository, ReservationRepository>();
+builder.Services.AddTransient<IStationRepository, StationRepository>();
+builder.Services.AddTransient<ITransactionRepository, TransactionRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IVehicleRepository, VehicleRepository>();
 
 //Domain
 builder.Services.AddTransient<IAddressService, AddressService>();
+builder.Services.AddTransient<IBasePriceService, BasePriceService>();
+builder.Services.AddTransient<ICardService, CardService>();
+builder.Services.AddTransient<IChargingService, ChargingService>();
+builder.Services.AddTransient<IChargingSpotService, ChargingSpotService>();
+builder.Services.AddTransient<IClientService, ClientService>();
+builder.Services.AddTransient<ICredentialsService, CredentialsService>();
+builder.Services.AddTransient<IManagerService, ManagerService>();
+builder.Services.AddTransient<IPlaceService, PlaceService>();
+builder.Services.AddTransient<IReservationService, ReservationService>();
+builder.Services.AddTransient<IStationService, StationService>();
+builder.Services.AddTransient<ITransactionService, TransactionService>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IVehicleService, VehicleService>();
 
 
 var connectionString = builder.Configuration.GetConnectionString("ChargingStationConnection");
@@ -58,7 +84,7 @@ builder.Services.AddCors(feature =>
 builder.Services.AddCronJob<CronJobReservationValidator>(c =>
 {
     c.TimeZoneInfo = TimeZoneInfo.Local;
-    c.CronExpression = @"5 * * * *";
+    c.CronExpression = @"* * * * *";
 });
 
 
