@@ -44,7 +44,7 @@ public class StationService : IStationService
         stationModel.BasePrices = new List<BasePriceDomainModel>();
         if (station.BasePrices != null)
             foreach (var item in station.BasePrices)
-                stationModel.BasePrices.Add(BasePriceService.ParseToModel(item));
+                stationModel.BasePrices.Add(PriceService.ParseToModel(item));
         
         stationModel.ChargingSpots = new List<ChargingSpotDomainModel>();
         if (station.ChargingSpots != null)

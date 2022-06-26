@@ -8,6 +8,7 @@ namespace ChargingStation.Repository;
 
 public interface IBasePriceRepository : IRepository<BasePrice>
 {
+    public Task<BasePrice> GetByStation(decimal stationId);
 }
 
 public class BasePriceRepository : IBasePriceRepository
@@ -60,5 +61,10 @@ public class BasePriceRepository : IBasePriceRepository
     {
         item.IsDeleted = true;
         return Update(item);
+    }
+
+    public async Task<BasePrice> GetByStation(decimal stationId)
+    {
+        return await _chargingStationContext.BasePrices.Where(x => x.StationId == stationId).FirstOrDefaultAsync();
     }
 }

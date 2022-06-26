@@ -2030,24 +2030,26 @@
     ]
   },
   "packageFolders": {
-    "/home/zograph/.nuget/packages/": {}
+    "C:\\Users\\Dell\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/zograph/cs/sims-projekat/ChargingStation/ChargingStation/ChargingStation.csproj",
+      "projectUniqueName": "C:\\Users\\Dell\\Desktop\\ChargingStations\\ChargingStation\\ChargingStation\\ChargingStation.csproj",
       "projectName": "ChargingStation",
-      "projectPath": "/home/zograph/cs/sims-projekat/ChargingStation/ChargingStation/ChargingStation.csproj",
-      "packagesPath": "/home/zograph/.nuget/packages/",
-      "outputPath": "/home/zograph/cs/sims-projekat/ChargingStation/ChargingStation/obj/",
+      "projectPath": "C:\\Users\\Dell\\Desktop\\ChargingStations\\ChargingStation\\ChargingStation\\ChargingStation.csproj",
+      "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Dell\\Desktop\\ChargingStations\\ChargingStation\\ChargingStation\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/zograph/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2169,7 +2171,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

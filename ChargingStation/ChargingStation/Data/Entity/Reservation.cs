@@ -20,7 +20,9 @@ public class Reservation
     
     [Column("charging_id")]
     public decimal? ChargingId { get; set; }
-    
+    [Column("charging_spot_id")]
+    public decimal ChargingSpotId { get; set; }
+
     [Column("card_id")]
     public decimal CardId { get; set; }
     
