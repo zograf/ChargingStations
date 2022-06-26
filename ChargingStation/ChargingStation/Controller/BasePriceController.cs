@@ -8,9 +8,9 @@ namespace ChargingStation.Controller;
 [Route("api/[controller]")]
 public class BasePriceController : ControllerBase
 {
-    private IBasePriceService _basePriceService;
+    private IPriceService _basePriceService;
 
-    public BasePriceController(IBasePriceService basePriceService)
+    public BasePriceController(IPriceService basePriceService)
     {
         _basePriceService = basePriceService;
     }

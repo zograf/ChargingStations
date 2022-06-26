@@ -22,6 +22,8 @@ public class ReservationController : ControllerBase
         List<ReservationDomainModel> reservations = await _reservationService.GetAll();
         return Ok(reservations);
     }
+    [HttpPost]
+    [Route("create")]
     public async Task<ActionResult<PlaceDomainModel>> CreateReservation(ReservationDTO dto)
     {
         ReservationDomainModel reservation = await _reservationService.CreateReservation(dto);
