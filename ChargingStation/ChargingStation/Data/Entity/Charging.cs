@@ -28,7 +28,6 @@ public class Charging
     public decimal ChargingSpotId { get; set; }
     
     [Column("reservation_id")]
-    [ForeignKey("reservation")]
     public decimal? ReservationId { get; set; }
     
     [Column("card_id")]
@@ -37,5 +36,5 @@ public class Charging
     [Column("is_deleted")]
     public bool IsDeleted { get; set; }
 
-    public Reservation? Reservation { get; set; }
+    // public Reservation? Reservation { get; set; }
 }

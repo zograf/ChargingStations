@@ -42,8 +42,8 @@ public class ChargingService : IChargingService
             UnitPrice = charging.UnitPrice
         };
 
-        if (charging.Reservation != null)
-            chargingModel.Reservation = ReservationService.ParseToModel(charging.Reservation);
+        // if (charging.Reservation != null)
+        //     chargingModel.Reservation = ReservationService.ParseToModel(charging.Reservation);
         
         return chargingModel;
     }
