@@ -407,3 +407,5 @@ FodyWeavers.xsd
 
 ChargingStation/.idea
 ChargingStation/.idea/*
+ChargingStation/ChargingStation/bin/*
+ChargingStation/ChargingStation/obj/*
