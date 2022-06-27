@@ -9,6 +9,7 @@ public interface IReservationService : IService<ReservationDomainModel>
 {
     public Task<List<ClientDomainModel>> CheckValidity();
     public Task<ReservationDomainModel> CreateReservation(ReservationDTO dto);
+    Task<IEnumerable<Tuple<DateTime, DateTime>>> GetReservedTimeSlots(decimal slotId);
 }
 
 public class ReservationService : IReservationService
@@ -100,12 +101,18 @@ public class ReservationService : IReservationService
 
     private async Task<IEnumerable<ReservationDomainModel>> GetByChargingSpot(ChargingSpotDomainModel spot)
     {
-        List<Reservation> reservations = await _reservationRepository.GetByChargingSpot(spot.Id);
+        IEnumerable<Reservation> reservations = await _reservationRepository.GetByChargingSpot(spot.Id);
         return ParseToModel(reservations);
     }
 
-    private IEnumerable<ReservationDomainModel> ParseToModel(List<Reservation> reservations)
+    private IEnumerable<ReservationDomainModel> ParseToModel(IEnumerable<Reservation> reservations)
     {
         return reservations.Select(reservation => ParseToModel(reservation));
+    }
+
+    public async Task<IEnumerable<Tuple<DateTime, DateTime>>> GetReservedTimeSlots(decimal slotId)
+    {
+        IEnumerable<Reservation> reservations = await _reservationRepository.GetByChargingSpot(slotId);
+        return reservations.Select(x => new Tuple<DateTime, DateTime>(x.StartTime, x.EndTime));
     }
 }

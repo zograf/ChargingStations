@@ -7,7 +7,7 @@ namespace ChargingStation.Repository;
 
 public interface IReservationRepository : IRepository<Reservation>
 {
-    public Task<List<Reservation>> GetByChargingSpot(decimal spotId);
+    public Task<IEnumerable<Reservation>> GetByChargingSpot(decimal spotId);
 }
 
 public class ReservationRepository : IReservationRepository
@@ -62,8 +62,8 @@ public class ReservationRepository : IReservationRepository
         return Update(item);
     }
 
-    public Task<List<Reservation>> GetByChargingSpot(decimal spotId)
+    public async Task<IEnumerable<Reservation>> GetByChargingSpot(decimal spotId)
     {
-        return _chargingStationContext.Reservations.Where(x=>x.ChargingSpotId == spotId).ToListAsync();
+        return await _chargingStationContext.Reservations.Where(x=>x.ChargingSpotId == spotId).ToListAsync();
     }
 }
