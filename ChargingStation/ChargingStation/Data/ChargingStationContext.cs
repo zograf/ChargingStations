@@ -29,53 +29,53 @@ public class ChargingStationContext: DbContext
     {
         base.OnModelCreating(modelBuilder);
         
-        modelBuilder.Entity<Card>()
-            .HasMany(x => x.Reservations);
-        
-        modelBuilder.Entity<Card>()
-            .HasMany(x => x.Chargings);
-        
-        modelBuilder.Entity<Charging>()
-            .HasOne(x => x.Reservation);
-        
-        modelBuilder.Entity<ChargingSpot>()
-            .HasMany(x => x.Chargings);
+        // modelBuilder.Entity<Card>()
+        //     .HasMany(x => x.Reservations);
+        // 
+        // modelBuilder.Entity<Card>()
+        //     .HasMany(x => x.Chargings);
+        // 
+        // modelBuilder.Entity<Charging>()
+        //     .HasOne(x => x.Reservation);
+        // 
+        // modelBuilder.Entity<ChargingSpot>()
+        //     .HasMany(x => x.Chargings);
 
-        modelBuilder.Entity<Client>()
-            .HasOne(x => x.User);
-        
-        modelBuilder.Entity<Client>()
-            .HasMany(x => x.Transactions);
-        
-        modelBuilder.Entity<Client>()
-            .HasMany(x => x.Vehicles);
-        
-        modelBuilder.Entity<Manager>()
-            .HasOne(x => x.User);
-        
-        modelBuilder.Entity<Place>()
-            .HasMany(x => x.Addresses);
-        
-        modelBuilder.Entity<Station>()
-            .HasOne(x => x.Address);
-        
-        modelBuilder.Entity<Station>()
-            .HasMany(x => x.BasePrices);
-        
-        modelBuilder.Entity<Station>()
-            .HasOne(x => x.Manager);
-        
-        modelBuilder.Entity<Station>()
-            .HasMany(x => x.ChargingSpots);
-        
-        modelBuilder.Entity<User>()
-            .HasOne(x => x.Credentials);
-        
-        modelBuilder.Entity<Vehicle>()
-            .HasOne(x => x.Card);
+        // modelBuilder.Entity<Client>()
+        //     .HasOne(x => x.User);
+        // 
+        // modelBuilder.Entity<Client>()
+        //     .HasMany(x => x.Transactions);
+        // 
+        // modelBuilder.Entity<Client>()
+        //     .HasMany(x => x.Vehicles);
+        // 
+        // modelBuilder.Entity<Manager>()
+        //     .HasOne(x => x.User);
+        // 
+        // modelBuilder.Entity<Place>()
+        //     .HasMany(x => x.Addresses);
+        // 
+        // modelBuilder.Entity<Station>()
+        //     .HasOne(x => x.Address);
+        // 
+        // modelBuilder.Entity<Station>()
+        //     .HasMany(x => x.BasePrices);
+        // 
+        // modelBuilder.Entity<Station>()
+        //     .HasOne(x => x.Manager);
+        // 
+        // modelBuilder.Entity<Station>()
+        //     .HasMany(x => x.ChargingSpots);
+        // 
+        // modelBuilder.Entity<User>()
+        //     .HasOne(x => x.Credentials);
+        // 
+        // modelBuilder.Entity<Vehicle>()
+        //     .HasOne(x => x.Card);
 
-        modelBuilder.Entity<ChargingSpot>()
-            .HasMany(x => x.Reservations);
+        // modelBuilder.Entity<ChargingSpot>()
+        //     .HasMany(x => x.Reservations);
         
 
         modelBuilder.Entity<Address>().HasKey(x => x.Id);
