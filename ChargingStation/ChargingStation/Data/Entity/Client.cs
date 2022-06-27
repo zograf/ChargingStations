@@ -13,7 +13,7 @@ public class Client
     public decimal Balance { get; set; }
     
     [Column("uin")]
-    public decimal UserIdentificationNumber { get; set; }
+    public string UserIdentificationNumber { get; set; }
     
     [Column("name")]
     public string Name { get; set; }

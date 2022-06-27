@@ -13,10 +13,10 @@ public class Card
     public bool IsBlocked { get; set; }
     
     [Column("not_coming_counter")]
-    public decimal NotComingCounter { get; set; }
+    public int NotComingCounter { get; set; }
     
     [Column("stayed_longer_counter")]
-    public decimal StayedLongerCounter { get; set; }
+    public int StayedLongerCounter { get; set; }
     
     [Column("vehicle_id")]
     public decimal VehicleId { get; set; }

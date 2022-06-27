@@ -6,7 +6,7 @@ public class ClientDomainModel
     
     public decimal Balance { get; set; }
     
-    public decimal UserIdentificationNumber { get; set; }
+    public string UserIdentificationNumber { get; set; }
     
     public string Name { get; set; }
     

@@ -22,6 +22,7 @@ public class UserRepository : IUserRepository
     {
         return await _chargingStationContext.Users
             .Where(x=>!x.IsDeleted)
+            .Include(x=>x.Credentials)
             .ToListAsync(); 
     }
 
