@@ -4,7 +4,7 @@ public class VehicleDomainModel
 {
     public decimal Id { get; set; }
     
-    public decimal Name { get; set; }
+    public string Name { get; set; }
     
     public string RegistrationPlate { get; set; }
     

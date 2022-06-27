@@ -6,9 +6,9 @@ public class CardDomainModel
     
     public bool IsBlocked { get; set; }
     
-    public decimal NotComingCounter { get; set; }
+    public int NotComingCounter { get; set; }
     
-    public decimal StayedLongerCounter { get; set; }
+    public int StayedLongerCounter { get; set; }
     
     public decimal VehicleId { get; set; }
     

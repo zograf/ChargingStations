@@ -10,7 +10,7 @@ public class Vehicle
     public decimal Id { get; set; }
     
     [Column("name")]
-    public decimal Name { get; set; }
+    public string Name { get; set; }
     
     [Column("register_number")]
     public string RegistrationPlate { get; set; }
