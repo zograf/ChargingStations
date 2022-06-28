@@ -3,6 +3,9 @@ using ChargingStation.Data;
 using ChargingStation.Domain.Utilities;
 using ChargingStation.Repository;
 using ChargingStation.Service;
+using ChargingStation.Service.RealtimeReport;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,12 +16,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 //builder.Services.AddControllers().AddJsonOptions(x =>
 //   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-
 
 //Repositories
 builder.Services.AddTransient<IAddressRepository, AddressRepository>();
@@ -51,7 +52,7 @@ builder.Services.AddTransient<IStationService, StationService>();
 builder.Services.AddTransient<ITransactionService, TransactionService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IVehicleService, VehicleService>();
-
+builder.Services.AddTransient<IMainHub, MainHub>();
 
 var connectionString = builder.Configuration.GetConnectionString("ChargingStationConnection");
 builder.Services.AddDbContext<ChargingStationContext>(x => x.UseSqlServer(connectionString));
@@ -60,9 +61,9 @@ builder.Services.AddDbContext<ChargingStationContext>(x => x.EnableSensitiveData
 
 //builder.Services.AddSingleton<CronJobNotifications>();
 
-//builder.Services.AddCors(options => 
+//builder.Services.AddCors(options =>
 //{
-//    options.AddPolicy("CorsPolicy", 
+//    options.AddPolicy("CorsPolicy",
 //        corsBuilder => corsBuilder.WithOrigins("http://localhost:7195").AllowAnyMethod()
 //           .AllowAnyHeader()
 //            .AllowCredentials());
@@ -87,6 +88,13 @@ builder.Services.AddCronJob<CronJobReservationValidator>(c =>
     c.CronExpression = @"* * * * *";
 });
 
+builder.Services.AddCronJob<ReportGenerator>(c =>
+{
+    c.TimeZoneInfo = TimeZoneInfo.Local;
+    c.CronExpression = @"* * * * *";
+});
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -96,24 +104,23 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-    
 }
-else 
+else
 {
     app.UseSwagger();
-    //app.UseSwaggerUI();
+    app.UseSwaggerUI();
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
         options.RoutePrefix = string.Empty;
     });
 }
-
+app.MapHub<MainHub>("/report");
+app.Services.GetService(typeof(IHubContext<MainHub>));
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("CorsPolicy");
 app.UseAuthorization();
 app.UseEndpoints(endpoints => endpoints.MapControllers());
-
 app.Run();
