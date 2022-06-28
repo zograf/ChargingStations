@@ -1,6 +1,8 @@
+using ChargingStation.Domain.DTOs;
 using ChargingStation.Domain.Models;
 using ChargingStation.Service;
 using Microsoft.AspNetCore.Mvc;
+using System.Transactions;
 
 namespace ChargingStation.Controller;
 
@@ -20,5 +22,13 @@ public class ClientController : ControllerBase
     {
         List<ClientDomainModel> clients = await _clientService.GetAll();
         return Ok(clients);
+    }
+
+    [HttpPost]
+    [Route("prepaid")]
+    public async Task<ActionResult<List<ClientDomainModel>>> Prepaid(TransactionDTO dto)
+    {
+        TransactionDomainModel transaction = await _clientService.Prepaid(dto);
+        return Ok(transaction);
     }
 }
