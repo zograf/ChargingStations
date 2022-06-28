@@ -39,4 +39,12 @@ public class ClientController : ControllerBase
         TransactionDomainModel transaction = await _clientService.Prepaid(dto);
         return Ok(transaction);
     }
+    
+    [HttpGet]
+    [Route("cards/userId={userId}")]
+    public async Task<ActionResult<List<VehicleDomainModel>>> GetCards(decimal userId)
+    {
+        List<VehicleDomainModel> cards = await _clientService.GetCards(userId);
+        return Ok(cards);
+    }
 }
