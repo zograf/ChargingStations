@@ -9,6 +9,7 @@ public interface IClientService : IService<ClientDomainModel>
 {
     public Task<ClientDomainModel> GetByUserId(decimal id);
     public Task<TransactionDomainModel> Prepaid(TransactionDTO dto);
+    public Task<List<VehicleDomainModel>> GetCards(decimal id);
 }
 
 public class ClientService : IClientService
@@ -20,6 +21,15 @@ public class ClientService : IClientService
     {
         _clientRepository = clientRepository;
         _transactionService = transactionService;
+    }
+
+    public async Task<List<VehicleDomainModel>> GetCards(decimal id)
+    {
+        Client client = await _clientRepository.GetByUserId(id);
+        List<VehicleDomainModel> result = new List<VehicleDomainModel>();
+        foreach (var vehicle in client.Vehicles)
+            result.Add(VehicleService.ParseToModel(vehicle));
+        return result;
     }
 
     public async Task<ClientDomainModel> GetByUserId(decimal id)

@@ -1,0 +1,53 @@
+<html>
+<head>
+    <link rel="stylesheet" href="../styles/client-reservations.css" type="text/css">
+</head>
+<body>
+    <div class="big-div">
+        <nav>
+            <ul>
+                <li>
+                    <a href="client-homepage.html" class="left">
+                        Homepage
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="current-page left">
+                        Reservations 
+                    </a>
+                </li>
+                <li>
+                    <a href="login.html" class="right">
+                        Logout 
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <br>
+        <br>
+        <hr>
+        <div id="card-div">
+            <h1>Client cards</h1>
+            <div id="card-table"></div>
+            <h1>Client reservations</h1>
+            <div id="reservation-table"></div>
+        </div>
+
+        <div id="reservation-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="reservation-close">&times;</span>
+                <label class="reservation-start">Reservation start</label>
+                <br>
+                <input type="datetime-local" id="reservation-start">
+                <br>
+                <label>Reservation end</label>
+                <br>
+                <input type="datetime-local" id= "reservation-end">
+                <br>
+                <button class="do-reserve" onclick="reserve()">Confirm reservation</button>
+            </div>
+        </div>
+    </div>
+    <script src="../scrpits/client-reservations.js"></script>
+</body>
+</html>

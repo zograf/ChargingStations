@@ -34,6 +34,9 @@ public class ClientRepository : IClientRepository
     {
         return await _chargingStationContext.Clients
             .Where(x=>x.Id == id)
+            .Include(x=>x.Vehicles)
+            .ThenInclude(y=>y.Card)
+            .ThenInclude(z=>z.Reservations)
             .FirstOrDefaultAsync(); 
     }
     
@@ -41,6 +44,9 @@ public class ClientRepository : IClientRepository
     {
         return await _chargingStationContext.Clients
             .Where(x=>x.UserId == id)
+            .Include(x=>x.Vehicles)
+            .ThenInclude(y=>y.Card)
+            .ThenInclude(z=>z.Reservations)
             .FirstOrDefaultAsync(); 
     }
 

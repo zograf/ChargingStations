@@ -10,6 +10,7 @@ public interface IReservationService : IService<ReservationDomainModel>
     public Task<List<ClientDomainModel>> CheckValidity();
     public Task<ReservationDomainModel> CreateReservation(ReservationDTO dto);
     Task<IEnumerable<Tuple<DateTime, DateTime>>> GetReservedTimeSlots(decimal slotId);
+    public Task<ReservationDomainModel> Cancel(decimal id);
 }
 
 public class ReservationService : IReservationService
@@ -39,6 +40,14 @@ public class ReservationService : IReservationService
     public async Task<List<ClientDomainModel>> CheckValidity()
     {
         return new List<ClientDomainModel>();
+    }
+    
+    public async Task<ReservationDomainModel> Cancel(decimal id)
+    {
+        Reservation reservation = await _reservationRepository.GetById(id);
+        _reservationRepository.Delete(reservation);
+        _reservationRepository.Save();
+        return ParseToModel(reservation);
     }
 
     public static ReservationDomainModel ParseToModel(Reservation reservation)
