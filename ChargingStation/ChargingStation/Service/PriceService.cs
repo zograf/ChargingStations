@@ -60,7 +60,7 @@ public class PriceService : IPriceService
     private async Task<decimal> CalculateBusyness(decimal stationId, DateTime timeOfCharging)
     {
         IEnumerable<ChargingSpot> spots = await _chargingSpotRepository.GetByStation(stationId);
-        decimal count = 0;
+        decimal count = 1;
         decimal maxCapacity = spots.Count();
         foreach (ChargingSpot spot in spots)
         {

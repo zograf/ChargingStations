@@ -14,15 +14,15 @@ public class ReservationDomainModel
     public decimal UnitPrice { get; set; }
     
     public decimal? ChargingId { get; set; }
-    
+    public decimal ChargingSpotId { get; set; }
+
     public decimal CardId { get; set; }
     
     public bool IsDeleted { get; set; }
 
     public bool IsOverlaping(DateTime start, DateTime end, int preMinOffset)
     {
-        return DateTimeUtils.IsDateTimeOverlap(
-            new Tuple<DateTime, DateTime>(start, end),
-            new Tuple<DateTime, DateTime>(this.StartTime.AddMinutes(-preMinOffset), this.EndTime));
+        return DateTimeUtils.IsDateTimeOverlap(start, end, 
+            this.StartTime.AddMinutes(-preMinOffset), this.EndTime);
     }
 }

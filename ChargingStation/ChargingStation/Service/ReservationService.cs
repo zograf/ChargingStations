@@ -49,6 +49,7 @@ public class ReservationService : IReservationService
             IsDeleted = reservation.IsDeleted,
             CardId = reservation.CardId,
             ChargingId = reservation.CardId,
+            ChargingSpotId = reservation.ChargingSpotId,
             EndTime = reservation.EndTime,
             StartTime = reservation.StartTime,
             UnitPrice = reservation.UnitPrice
@@ -59,10 +60,12 @@ public class ReservationService : IReservationService
 
     public async Task<ReservationDomainModel> CreateReservation(ReservationDTO dto)
     {
+        if (dto.StartTime >= dto.EndTime)
+            throw new Exception("Start time is after end time");
         Reservation reservation = await FindReservation(dto.StartTime, dto.EndTime, dto.CardId);
         if (reservation is null)
             throw new Exception("Cannot appoint reservation in that time, no available slots");
-        _reservationRepository.Post(reservation);
+        reservation = _reservationRepository.Post(reservation);
         _reservationRepository.Save();
         return ParseToModel(reservation);
     }
