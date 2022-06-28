@@ -1,7 +1,44 @@
 <html>
 <head>
+    <link rel="stylesheet" href="../styles/client-homepage.css" type="text/css">
 </head>
 <body>
-    <h1>Client</h1>
+    <div class="big-div">
+        <nav>
+            <ul>
+                <li>
+                    <a href="#" class="current-page left">
+                        Homepage
+                    </a>
+                </li>
+                <li>
+                    <a href="client-reservations.html" class="left">
+                        Reservations 
+                    </a>
+                </li>
+                <li>
+                    <a href="login.html" class="right">
+                        Logout 
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <br>
+        <br>
+        <hr>
+        <div class="user-card">
+            <h1>Client info</h1>
+            <div class="left-div">
+                <img src="../icons/avatar.png">
+            </div>
+            <div class="right-div">
+                <p id="name">Name: </p>
+                <p id="surname">Surname: </p>
+                <p id="uin">UIN: </p>
+                <p id="balance">Balance: </p>
+            </div>
+        </div>
+    </div>
+    <script src="../scrpits/client-homepage.js"></script>
 </body>
 </html>

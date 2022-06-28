@@ -7,6 +7,7 @@ namespace ChargingStation.Repository;
 
 public interface IClientRepository : IRepository<Client>
 {
+    public Task<Client> GetByUserId(decimal id);
 }
 
 public class ClientRepository : IClientRepository
@@ -33,6 +34,13 @@ public class ClientRepository : IClientRepository
     {
         return await _chargingStationContext.Clients
             .Where(x=>x.Id == id)
+            .FirstOrDefaultAsync(); 
+    }
+    
+    public async Task<Client> GetByUserId(decimal id)
+    {
+        return await _chargingStationContext.Clients
+            .Where(x=>x.UserId == id)
             .FirstOrDefaultAsync(); 
     }
 

@@ -7,7 +7,8 @@ namespace ChargingStation.Service;
 
 public interface IClientService : IService<ClientDomainModel>
 {
-    Task<TransactionDomainModel> Prepaid(TransactionDTO dto);
+    public Task<ClientDomainModel> GetByUserId(decimal id);
+    public Task<TransactionDomainModel> Prepaid(TransactionDTO dto);
 }
 
 public class ClientService : IClientService
@@ -20,7 +21,12 @@ public class ClientService : IClientService
         _clientRepository = clientRepository;
         _transactionService = transactionService;
     }
-    
+
+    public async Task<ClientDomainModel> GetByUserId(decimal id)
+    {
+        return ParseToModel(await _clientRepository.GetByUserId(id));
+    }
+
     public async Task<List<ClientDomainModel>> GetAll()
     {
         List<Client> clients = await _clientRepository.GetAll();
