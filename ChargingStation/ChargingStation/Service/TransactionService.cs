@@ -1,4 +1,5 @@
 using System.Transactions;
+using ChargingStation.Domain.DTOs;
 using ChargingStation.Domain.Models;
 using ChargingStation.Repository;
 using Transaction = ChargingStation.Data.Entity.Transaction;
@@ -7,6 +8,7 @@ namespace ChargingStation.Service;
 
 public interface ITransactionService : IService<TransactionDomainModel>
 {
+    public Task<TransactionDomainModel> Create(TransactionDTO transaction, bool increase);
 }
 
 public class TransactionService : ITransactionService
@@ -36,10 +38,24 @@ public class TransactionService : ITransactionService
             Amount = transaction.Amount,
             ClientId = transaction.ClientId,
             Time = transaction.Time,
-            Type = (transaction.Type == "increase") ? TransactionDomainModel.TransactionType.INCREASE 
-                : TransactionDomainModel.TransactionType.DECREASE
+            Type = transaction.Type
         };
 
         return transactionModel;
+    }
+
+    public async Task<TransactionDomainModel> Create(TransactionDTO transactionDTO, bool increase)
+    {
+        Transaction transaction = new Transaction
+        {
+            Amount = transactionDTO.Amount,
+            Time = DateTime.Now,
+            ClientId = transactionDTO.ClientId,
+            IsDeleted = false,
+            Type = increase ? "increase" : "decrease",
+        };
+        _transactionRepository.Post(transaction);
+        _transactionRepository.Save();
+        return ParseToModel(transaction);
     }
 }
