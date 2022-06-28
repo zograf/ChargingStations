@@ -21,4 +21,12 @@ public class ClientController : ControllerBase
         List<ClientDomainModel> clients = await _clientService.GetAll();
         return Ok(clients);
     }
+
+    [HttpGet]
+    [Route("userId={id}")]
+    public async Task<ActionResult<ClientDomainModel>> GetByUserId(decimal id)
+    {
+        ClientDomainModel client = await _clientService.GetByUserId(id);
+        return Ok(client);
+    }
 }
