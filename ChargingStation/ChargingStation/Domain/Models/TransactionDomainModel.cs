@@ -14,10 +14,19 @@ public class TransactionDomainModel
     
     public DateTime Time { get; set; }
     
-    public TransactionType Type { get; set; }
+    public string Type { get; set; }
     
     public decimal ClientId { get; set; }
     
     public bool IsDeleted { get; set; }
-    
+
+    public static string TranslateType(TransactionType type)
+    {
+        if (type == TransactionType.INCREASE)
+            return "increase";
+        else
+            return "decrease";
+    }
+
+
 }

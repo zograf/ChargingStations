@@ -1,4 +1,5 @@
 using ChargingStation.Data.Entity;
+using ChargingStation.Domain.DTOs;
 using ChargingStation.Domain.Models;
 using ChargingStation.Repository;
 
@@ -6,15 +7,18 @@ namespace ChargingStation.Service;
 
 public interface IClientService : IService<ClientDomainModel>
 {
+    Task<TransactionDomainModel> Prepaid(TransactionDTO dto);
 }
 
 public class ClientService : IClientService
 {
     private readonly IClientRepository _clientRepository;
+    private readonly ITransactionService _transactionService;
 
-    public ClientService(IClientRepository clientRepository)
+    public ClientService(IClientRepository clientRepository, ITransactionService transactionService)
     {
         _clientRepository = clientRepository;
+        _transactionService = transactionService;
     }
     
     public async Task<List<ClientDomainModel>> GetAll()
@@ -54,5 +58,18 @@ public class ClientService : IClientService
             clientModel.User = UserService.ParseToModel(client.User);
         
         return clientModel;
+    }
+
+    public async Task<TransactionDomainModel> Prepaid(TransactionDTO dto)
+    {
+        Client client = await _clientRepository.GetById(dto.ClientId);
+        if (client is null)
+        {
+            throw new Exception("Non existant client");
+        }
+        client.Balance += dto.Amount;
+        _clientRepository.Update(client);
+        _clientRepository.Save();
+        return await _transactionService.Create(dto, true);
     }
 }
