@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio
 
@@ -405,6 +404,8 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
 
+ChargingStation/.vs/
+ChargingStation/.vs/*
 ChargingStation/.idea
 ChargingStation/.idea/*
 ChargingStation/ChargingStation/bin/*
