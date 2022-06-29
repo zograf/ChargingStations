@@ -7,6 +7,8 @@ namespace ChargingStation.Service;
 public interface IChargingSpotService : IService<ChargingSpotDomainModel>
 {
     public Task<Boolean> ManageStates();
+    Task<IEnumerable<ChargingSpotDomainModel>> GetForReservations();
+    Task<IEnumerable<ChargingSpotDomainModel>> GetForSuddenArrival();
 }
 
 public class ChargingSpotService : IChargingSpotService
@@ -68,5 +70,22 @@ public class ChargingSpotService : IChargingSpotService
                 chargingSpotModel.Chargings.Add(ChargingService.ParseToModel(item));
         
         return chargingSpotModel;
+    }
+
+    public async Task<IEnumerable<ChargingSpotDomainModel>> GetForReservations()
+    {
+        IEnumerable<ChargingSpot> chargingSpots = await _chargingSpotRepository.GeForReservation();
+        return ParseToModel(chargingSpots);
+    }
+
+    private IEnumerable<ChargingSpotDomainModel> ParseToModel(IEnumerable<ChargingSpot> chargingSpots)
+    {
+        return chargingSpots.Select(x => ParseToModel(x));
+    }
+
+    public async Task<IEnumerable<ChargingSpotDomainModel>> GetForSuddenArrival()
+    {
+        IEnumerable<ChargingSpot> chargingSpots = await _chargingSpotRepository.GetForSuddenArrival();
+        return ParseToModel(chargingSpots);
     }
 }
