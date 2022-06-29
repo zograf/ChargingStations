@@ -6,6 +6,7 @@ namespace ChargingStation.Service;
 
 public interface IChargingSpotService : IService<ChargingSpotDomainModel>
 {
+    public Task<Boolean> ManageStates();
 }
 
 public class ChargingSpotService : IChargingSpotService
@@ -16,7 +17,30 @@ public class ChargingSpotService : IChargingSpotService
     {
         _chargingSpotRepository = chargingSpotRepository;
     }
-    
+
+    public async Task<Boolean> ManageStates()
+    {
+        List<ChargingSpot> chargingSpots = await _chargingSpotRepository.GetAll();
+        foreach (var item in chargingSpots)
+        {
+            item.State = 0;
+            foreach (var reservation in item.Reservations)
+            {
+                if (reservation.IsDeleted) continue;
+                if (reservation.StartTime < DateTime.Now && reservation.EndTime > DateTime.Now)
+                    item.State = 1;
+
+            }
+            foreach (var charging in item.Chargings)
+                if (charging.StartTime < DateTime.Now && charging.EndTime > DateTime.Now)
+                    item.State = 2;
+            
+            _chargingSpotRepository.Update(item);
+        }
+        _chargingSpotRepository.Save();
+        return true;
+    }
+
     public async Task<List<ChargingSpotDomainModel>> GetAll()
     {
         List<ChargingSpot> chargingSpots = await _chargingSpotRepository.GetAll();

@@ -18,8 +18,10 @@ namespace ChargingStation.Domain.Utilities
             {
                 IReservationService reservationService =
                     scope.ServiceProvider.GetRequiredService<IReservationService>();
-                List<ClientDomainModel> clients = await reservationService.CheckValidity();
-                await Task.Delay(10000);
+                IChargingSpotService chargingSpotService =
+                    scope.ServiceProvider.GetRequiredService<IChargingSpotService>();
+                _ = await chargingSpotService.ManageStates();
+                _ = await reservationService.CheckValidity();
             }
         }
     }

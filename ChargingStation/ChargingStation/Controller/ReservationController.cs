@@ -46,4 +46,12 @@ public class ReservationController : ControllerBase
         IEnumerable<Tuple<DateTime, DateTime>> reservationTimeSlots = await _reservationService.GetReservedTimeSlots(slotId);
         return Ok(reservationTimeSlots);
     }
+    
+    [HttpGet]
+    [Route("arrive/reservationId={id}")]
+    public async Task<ActionResult<ReservationDomainModel>> Arrive(decimal id)
+    {
+        ReservationDomainModel reservation = await _reservationService.Arrive(id);
+        return Ok(reservation);
+    }
 }
