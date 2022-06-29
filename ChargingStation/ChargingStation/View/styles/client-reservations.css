@@ -188,3 +188,10 @@ input {
     width: 100%;
     height: 40px;
 }
+.btn-arrive {
+    background-color: #00d6b7;
+    height: 30px;
+    width: 60px;
+    border-radius: 15%;
+    border: 1px;
+}

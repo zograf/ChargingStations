@@ -88,3 +88,18 @@ h1 {
     color: white;
     text-align: center;
 }
+
+.btn-arrive {
+    margin-top:5%;
+    border: 1px;
+    border-color: #00d6b7;
+    background-color: #00d6b7;
+    color:white;
+    font-size: 20px;
+    width: 30%;
+    height: 40px;
+}
+
+button:hover {
+    filter: brightness(150%);
+}

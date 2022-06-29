@@ -24,6 +24,8 @@ public class ChargingSpotRepository : IChargingSpotRepository
     {
         return await _chargingStationContext.ChargingSpots
             .Where(x=>!x.IsDeleted)
+            .Include(y=>y.Chargings)
+            .Include(z=>z.Reservations)
             .ToListAsync(); 
     }
 

@@ -3,6 +3,7 @@ let reservationUri = "https://localhost:7265/api/Reservation/create";
 let getReservationsUri = "https://localhost:7265/api/Reservation";
 let cancelUri = "https://localhost:7265/api/Reservation/cancel/id=";
 let notificatonUri = "https://localhost:7265/api/Notification/userId=";
+let arriveUri = "https://localhost:7265/api/Reservation/arrive/reservationId="
 
 let id = sessionStorage.getItem("userId");
 
@@ -18,8 +19,10 @@ function checkNotifications() {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 let notifications = JSON.parse(request.responseText);
-                if (notifications.length != 0)
+                if (notifications.length != 0) {
                     alert("You have missed your reservation")
+                    document.location.reload()
+                }
             } else {
                 alert("Error during notification loading");
             }
@@ -73,20 +76,26 @@ function fillReservations(vehicles) {
     cell4.innerHTML = "TIME END"
     let cell5 = row.insertCell(4);
     cell5.innerHTML = "CANCEL RESERVATION"
+    let cell6 = row.insertCell(5);
+    cell6.innerHTML = "ARRIVE"
     console.log(reservations)
     console.log(vehicles)
+    let j = 1;
     for (let i = 0; i < reservations.length; ++i) {
         let reservation = reservations[i]
+        if (reservation["chargingId"] != null) continue;
         let vehicle = getVehicleByCardId(reservation["cardId"])
         if (vehicle == null) continue
 
-        let row = table.insertRow(i+1);
+        let row = table.insertRow(j);
         let cell1 = row.insertCell(0);
         let cell2 = row.insertCell(1);
         let cell3 = row.insertCell(2);
         let cell4 = row.insertCell(3);
         let cell5 = row.insertCell(4);
+        let cell6 = row.insertCell(5);
 
+        j+=1
 
         cell1.innerHTML = reservation["cardId"];
         cell2.innerHTML = vehicle["name"];
@@ -97,10 +106,19 @@ function fillReservations(vehicles) {
         buttonCancel.setAttribute("class", "btn-cancel")
         buttonCancel.setAttribute("id", reservation["id"])
         buttonCancel.onclick = function() {
-            id = reservation["id"]
+            id = document.getElementsByClassName("btn-cancel")[0].id
             cancel(id)
         }
+
+        let buttonArrive = document.createElement("button")
+        buttonArrive.setAttribute("class", "btn-arrive")
+        buttonArrive.setAttribute("id", reservation["id"])
+        buttonArrive.onclick = function() {
+            id = document.getElementsByClassName("btn-arrive")[0].id
+            arrive(id)
+        }
         cell5.appendChild(buttonCancel)
+        cell6.appendChild(buttonArrive)
     }
     document.getElementById("reservation-table").appendChild(table);
 
@@ -211,3 +229,18 @@ function cancel(id) {
     request.send();
 }
 
+function arrive(reservationId) {
+    let request = new XMLHttpRequest();
+    request.open('GET', arriveUri + reservationId);
+    request.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                alert("Arrive successful!")
+                document.location.reload()
+            } else {
+                alert("Arrive fail!");
+            }
+        }
+    }
+    request.send();
+}

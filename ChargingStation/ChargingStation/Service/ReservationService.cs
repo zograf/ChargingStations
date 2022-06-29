@@ -9,6 +9,7 @@ namespace ChargingStation.Service;
 public interface IReservationService : IService<ReservationDomainModel>
 {
     public Task<List<ClientDomainModel>> CheckValidity();
+    public Task<ReservationDomainModel> Arrive(decimal id);
     public Task<ReservationDomainModel> CreateReservation(ReservationDTO dto);
     Task<IEnumerable<Tuple<DateTime, DateTime>>> GetReservedTimeSlots(decimal slotId);
     public Task<ReservationDomainModel> Cancel(decimal id);
@@ -22,13 +23,19 @@ public class ReservationService : IReservationService
     private readonly IClientRepository _clientRepository;
     private readonly INotificationRepository _notificationRepository;
     private readonly IChargingSpotRepository _chargingSpotRepository;
+    private readonly ICardRepository _cardRepository;
+    private readonly IVehicleRepository _vehicleRepository;
+    private readonly IChargingRepository _chargingRepository;
 
     public ReservationService(IReservationRepository reservationRepository,
         IChargingSpotService chargingSpotService,
         IPriceService priceService,
         IClientRepository clientRepository,
         INotificationRepository notificationRepository,
-        IChargingSpotRepository chargingSpotRepository)
+        IChargingSpotRepository chargingSpotRepository,
+        ICardRepository cardRepository,
+        IVehicleRepository vehicleRepository,
+        IChargingRepository chargingRepository)
     {
         _reservationRepository = reservationRepository;
         _chargingSpotService = chargingSpotService;
@@ -36,8 +43,38 @@ public class ReservationService : IReservationService
         _clientRepository = clientRepository;
         _notificationRepository = notificationRepository;
         _chargingSpotRepository = chargingSpotRepository;
+        _cardRepository = cardRepository;
+        _vehicleRepository = vehicleRepository;
+        _chargingRepository = chargingRepository;
     }
-    
+
+    public async Task<ReservationDomainModel> Arrive(decimal id)
+    {
+        Reservation reservation = await _reservationRepository.GetById(id);
+        Charging charging = new Charging
+        {
+            StartTime = reservation.StartTime,
+            EndTime = reservation.EndTime,
+            CardId = reservation.CardId,
+            ChargingSpotId = reservation.ChargingSpotId,
+            IsDeleted = false,
+            ReservationId = reservation.Id,
+            UnitPrice = reservation.UnitPrice
+        };
+        decimal duration = (decimal) (reservation.EndTime - reservation.StartTime).TotalHours;
+        Card card = await _cardRepository.GetById(reservation.CardId);
+        Vehicle vehicle = await _vehicleRepository.GetById(card.VehicleId);
+        decimal totalPrice = reservation.UnitPrice * duration * vehicle.Power;
+        charging.TotalPrice = totalPrice;
+        charging.ElectricitySpent = duration;
+        Charging newCharging = _chargingRepository.Post(charging);
+        _chargingRepository.Save();
+        reservation.ChargingId = newCharging.Id;
+        _reservationRepository.Update(reservation);
+        _reservationRepository.Save();
+        return ParseToModel(reservation);
+    }
+
     public async Task<List<ReservationDomainModel>> GetAll()
     {
         List<Reservation> reservations = await _reservationRepository.GetAll();
@@ -81,7 +118,7 @@ public class ReservationService : IReservationService
         foreach (var item in result)
         {
             ret.Add(ClientService.ParseToModel(item));
-            _ = SendNotification(item.UserId);
+            _ = SendNotification(item.Id);
         }
         return ret;
     }
@@ -113,7 +150,7 @@ public class ReservationService : IReservationService
             Id = reservation.Id,
             IsDeleted = reservation.IsDeleted,
             CardId = reservation.CardId,
-            ChargingId = reservation.CardId,
+            ChargingId = reservation.ChargingId,
             ChargingSpotId = reservation.ChargingSpotId,
             EndTime = reservation.EndTime,
             StartTime = reservation.StartTime,
