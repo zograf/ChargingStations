@@ -72,7 +72,7 @@ public class SimulationService : ISimulationService
         var state = await _chargingSpotService.GetState(spotId);
         if (state == 0)
         {
-            _chargingSpotService.ChangeState(spotId, 3);
+            await _chargingSpotService.ChangeState(spotId, 3);
         }
         else if (state == 1)
         {
