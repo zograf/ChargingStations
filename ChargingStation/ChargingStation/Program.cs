@@ -4,6 +4,7 @@ using ChargingStation.Domain.Utilities;
 using ChargingStation.Repository;
 using ChargingStation.Service;
 using Microsoft.EntityFrameworkCore;
+using static ChargingStation.Service.SimulationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,12 +14,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 //builder.Services.AddControllers().AddJsonOptions(x =>
 //   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-
 
 //Repositories
 builder.Services.AddTransient<IAddressRepository, AddressRepository>();
@@ -53,7 +52,7 @@ builder.Services.AddTransient<ITransactionService, TransactionService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IVehicleService, VehicleService>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
-
+builder.Services.AddTransient<ISimulationService, SimulationService>();
 
 var connectionString = builder.Configuration.GetConnectionString("ChargingStationConnection");
 builder.Services.AddDbContext<ChargingStationContext>(x => x.UseSqlServer(connectionString));
@@ -62,9 +61,9 @@ builder.Services.AddDbContext<ChargingStationContext>(x => x.EnableSensitiveData
 
 //builder.Services.AddSingleton<CronJobNotifications>();
 
-//builder.Services.AddCors(options => 
+//builder.Services.AddCors(options =>
 //{
-//    options.AddPolicy("CorsPolicy", 
+//    options.AddPolicy("CorsPolicy",
 //        corsBuilder => corsBuilder.WithOrigins("http://localhost:7195").AllowAnyMethod()
 //           .AllowAnyHeader()
 //            .AllowCredentials());
@@ -89,7 +88,6 @@ builder.Services.AddCronJob<CronJobReservationValidator>(c =>
     c.CronExpression = @"* * * * *";
 });
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.`
@@ -98,9 +96,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-    
 }
-else 
+else
 {
     app.UseSwagger();
     //app.UseSwaggerUI();
