@@ -5,7 +5,11 @@ namespace ChargingStation.Service;
 
 public interface ISimulationService
 {
-    public void SimulationIteration();
+    public Task<List<decimal>> Arrive();
+
+    public Task<decimal> Malfunction();
+
+    public Task<decimal> Repair();
 }
 
 public class SimulationService : ISimulationService
@@ -25,19 +29,12 @@ public class SimulationService : ISimulationService
         this._cardService = cardService;
     }
 
-    public async void SimulationIteration()
-    {
-        Repair();
-        Malfunction();
-        Arrive();
-    }
-
-    private async void Arrive()
+    public async Task<List<decimal>> Arrive()
     {
         Random rand = new Random(Guid.NewGuid().GetHashCode());
         List<CardDomainModel> cards = await _cardService.GetAll();
         int cardId = rand.Next(0, cards.Count);
-
+        List<decimal> cardIds = new List<decimal>();
         for (int i = 0; i < 2; i++)
         {
             var dto = new Domain.DTOs.ArriveDTO();
@@ -45,23 +42,28 @@ public class SimulationService : ISimulationService
             dto.StartTime = DateTime.Now;
             dto.EndTime = DateTime.Now.AddSeconds(120);
             _chargingService.Arrive(dto);
+            cardIds.Add(cardId);
         }
+        return cardIds;
     }
 
-    private async void Repair()
+    public async Task<decimal> Repair()
     {
+        decimal spotId;
         List<ChargingSpotDomainModel> spots = await _chargingSpotService.GetAll();
         foreach (var spot in spots)
         {
             if (spot.State == 3)
             {
-                _chargingSpotService.ChangeState(spot.Id, 3);
+                await _chargingSpotService.ChangeState(spot.Id, 0);
+                spotId = spot.Id;
                 break;
             }
         }
+        return 0;
     }
 
-    private async void Malfunction()
+    public async Task<decimal> Malfunction()
     {
         List<ChargingSpotDomainModel> spots = await _chargingSpotService.GetAll();
         var count = spots.Count;
@@ -81,7 +83,8 @@ public class SimulationService : ISimulationService
             FinishCharging(spotId);
         }
 
-        _chargingSpotService.ChangeState(spotId, 3);
+        await _chargingSpotService.ChangeState(spotId, 3);
+        return spotId;
     }
 
     private async void CancelReservationsAsync(decimal spotId)

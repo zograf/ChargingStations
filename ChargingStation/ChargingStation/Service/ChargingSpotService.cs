@@ -8,7 +8,7 @@ public interface IChargingSpotService : IService<ChargingSpotDomainModel>
 {
     public Task<decimal> GetState(int id);
 
-    public void ChangeState(decimal id, decimal state);
+    public Task ChangeState(decimal id, decimal state);
 
     public Task<Boolean> ManageStates();
 }
@@ -80,7 +80,7 @@ public class ChargingSpotService : IChargingSpotService
         return spot.State;
     }
 
-    public async void ChangeState(decimal id, decimal state)
+    public async Task ChangeState(decimal id, decimal state)
     {
         var spot = await _chargingSpotRepository.GetById(id);
         spot.State = state;
