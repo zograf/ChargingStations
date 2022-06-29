@@ -220,6 +220,6 @@ public class ReservationService : IReservationService
     public async Task<IEnumerable<Tuple<DateTime, DateTime>>> GetReservedTimeSlots(decimal slotId)
     {
         IEnumerable<Reservation> reservations = await _reservationRepository.GetByChargingSpot(slotId);
-        return reservations.Where(x => x.EndTime > DateTime.Now).Select(x => new Tuple<DateTime, DateTime>(x.StartTime, x.EndTime));
+        return reservations.Where(x => x.EndTime > DateTime.Now && x.EndTime < DateTime.Now.AddHours(12)).Select(x => new Tuple<DateTime, DateTime>(x.StartTime, x.EndTime));
     }
 }
