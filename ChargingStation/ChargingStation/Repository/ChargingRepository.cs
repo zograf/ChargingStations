@@ -17,14 +17,14 @@ public class ChargingRepository : IChargingRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<Charging>> GetAll()
     {
         return await _chargingStationContext.Chargings
-            .Where(x=>!x.IsDeleted)
-            .ToListAsync(); 
+            .Where(x => !x.IsDeleted)
+            .ToListAsync();
     }
-    
+
     public Task<Charging> GetById(string id)
     {
         return null;
@@ -33,8 +33,8 @@ public class ChargingRepository : IChargingRepository
     public async Task<Charging> GetById(decimal id)
     {
         return await _chargingStationContext.Chargings
-            .Where(x=>x.Id == id && !x.IsDeleted)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Id == id && !x.IsDeleted)
+            .FirstOrDefaultAsync();
     }
 
     public void Save()

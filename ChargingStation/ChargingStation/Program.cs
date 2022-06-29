@@ -1,10 +1,9 @@
-using System.Text.Json.Serialization;
 using ChargingStation.Data;
 using ChargingStation.Domain.Utilities;
 using ChargingStation.Repository;
 using ChargingStation.Service;
 using Microsoft.EntityFrameworkCore;
-using static ChargingStation.Service.SimulationService;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -93,7 +92,6 @@ builder.Services.AddCronJob<CronJobStateManager>(c =>
     c.TimeZoneInfo = TimeZoneInfo.Local;
     c.CronExpression = @"* * * * *";
 });
-
 
 var app = builder.Build();
 

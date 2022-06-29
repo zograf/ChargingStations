@@ -1,6 +1,5 @@
 using ChargingStation.Data;
 using ChargingStation.Data.Entity;
-using ChargingStation.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -19,14 +18,14 @@ public class BasePriceRepository : IBasePriceRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<BasePrice>> GetAll()
     {
         return await _chargingStationContext.BasePrices
-            .Where(x=>!x.IsDeleted)
-            .ToListAsync(); 
+            .Where(x => !x.IsDeleted)
+            .ToListAsync();
     }
-    
+
     public Task<BasePrice> GetById(string id)
     {
         return null;
@@ -35,8 +34,8 @@ public class BasePriceRepository : IBasePriceRepository
     public async Task<BasePrice> GetById(decimal id)
     {
         return await _chargingStationContext.BasePrices
-            .Where(x=>x.Id == id && !x.IsDeleted)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Id == id && !x.IsDeleted)
+            .FirstOrDefaultAsync();
     }
 
     public void Save()

@@ -22,7 +22,7 @@ public class ChargingController : ControllerBase
         List<ChargingDomainModel> chargings = await _chargingService.GetAll();
         return Ok(chargings);
     }
-    
+
     [HttpPut]
     [Route("arrive")]
     public async Task<ActionResult<ChargingDomainModel>> Arrive(ArriveDTO dto)

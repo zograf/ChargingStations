@@ -18,12 +18,12 @@ public class ReservationRepository : IReservationRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<Reservation>> GetAll()
     {
         return await _chargingStationContext.Reservations
-            .Where(x=>!x.IsDeleted)
-            .ToListAsync(); 
+            .Where(x => !x.IsDeleted)
+            .ToListAsync();
     }
 
     public Task<Reservation> GetById(string id)
@@ -34,8 +34,8 @@ public class ReservationRepository : IReservationRepository
     public async Task<Reservation> GetById(decimal id)
     {
         return await _chargingStationContext.Reservations
-            .Where(x=>x.Id == id && !x.IsDeleted)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Id == id && !x.IsDeleted)
+            .FirstOrDefaultAsync();
     }
 
     public void Save()
@@ -64,6 +64,6 @@ public class ReservationRepository : IReservationRepository
 
     public async Task<IEnumerable<Reservation>> GetByChargingSpot(decimal spotId)
     {
-        return await _chargingStationContext.Reservations.Where(x=>x.ChargingSpotId == spotId).ToListAsync();
+        return await _chargingStationContext.Reservations.Where(x => x.ChargingSpotId == spotId).ToListAsync();
     }
 }

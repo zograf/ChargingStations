@@ -7,11 +7,13 @@ namespace ChargingStation.Domain.Utilities
         string CronExpression { get; set; }
         TimeZoneInfo TimeZoneInfo { get; set; }
     }
+
     public class ScheduleConfig<T> : IScheduleConfig<T>
     {
         public string CronExpression { get; set; }
         public TimeZoneInfo TimeZoneInfo { get; set; }
     }
+
     public static class ScheduledServiceExtensions
     {
         public static IServiceCollection AddCronJob<T>(this IServiceCollection services, Action<IScheduleConfig<T>> options) where T : CronJobService
@@ -76,7 +78,6 @@ namespace ChargingStation.Domain.Utilities
                         {
                             Console.WriteLine(ex.Message);
                         }
-                            
                     }
 
                     if (!cancellationToken.IsCancellationRequested)
@@ -105,6 +106,4 @@ namespace ChargingStation.Domain.Utilities
             _timer?.Dispose();
         }
     }
-
-
 }

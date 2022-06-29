@@ -8,7 +8,9 @@ namespace ChargingStation.Service;
 public interface IClientService : IService<ClientDomainModel>
 {
     public Task<ClientDomainModel> GetByUserId(decimal id);
+
     public Task<TransactionDomainModel> Prepaid(TransactionDTO dto);
+
     public Task<List<VehicleDomainModel>> GetCards(decimal id);
 }
 
@@ -64,7 +66,7 @@ public class ClientService : IClientService
         if (client.Transactions != null)
             foreach (var item in client.Transactions)
                 clientModel.Transactions.Add(TransactionService.ParseToModel(item));
-        
+
         clientModel.Vehicles = new List<VehicleDomainModel>();
         if (client.Vehicles != null)
             foreach (var item in client.Vehicles)
@@ -72,7 +74,7 @@ public class ClientService : IClientService
 
         if (client.User != null)
             clientModel.User = UserService.ParseToModel(client.User);
-        
+
         return clientModel;
     }
 

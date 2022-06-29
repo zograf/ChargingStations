@@ -16,7 +16,7 @@ checkNotifications()
 function checkNotifications() {
     let request = new XMLHttpRequest();
     request.open('GET', notificatonUri + id);
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 let notifications = JSON.parse(request.responseText);
@@ -30,12 +30,12 @@ function checkNotifications() {
         }
     }
     request.send()
-    setTimeout(function() { checkNotifications() }, 15000);
+    setTimeout(function () { checkNotifications() }, 15000);
 }
 
 let request = new XMLHttpRequest();
 request.open('GET', cardUri + id);
-request.onreadystatechange = function() {
+request.onreadystatechange = function () {
     if (this.readyState === 4) {
         if (this.status === 200) {
             vehicles = JSON.parse(request.responseText);
@@ -51,7 +51,7 @@ request.send()
 function res() {
     request = new XMLHttpRequest();
     request.open('GET', getReservationsUri);
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 reservations = JSON.parse(request.responseText);
@@ -107,7 +107,7 @@ function fillReservations(vehicles) {
         let buttonCancel = document.createElement("button")
         buttonCancel.setAttribute("class", "btn-cancel")
         buttonCancel.setAttribute("id", reservation["id"])
-        buttonCancel.onclick = function() {
+        buttonCancel.onclick = function () {
             id = document.getElementsByClassName("btn-cancel")[0].id
             cancel(id)
         }
@@ -115,7 +115,7 @@ function fillReservations(vehicles) {
         let buttonArrive = document.createElement("button")
         buttonArrive.setAttribute("class", "btn-arrive")
         buttonArrive.setAttribute("id", reservation["id"])
-        buttonArrive.onclick = function() {
+        buttonArrive.onclick = function () {
             id = document.getElementsByClassName("btn-arrive")[0].id
             arrive(id)
         }
@@ -123,7 +123,6 @@ function fillReservations(vehicles) {
         cell6.appendChild(buttonArrive)
     }
     document.getElementById("reservation-table").appendChild(table);
-
 }
 
 function getVehicleByCardId(cardId) {
@@ -164,7 +163,7 @@ function fillTable(vehicles) {
         let buttonReserve = document.createElement("button")
         buttonReserve.setAttribute("class", "btn-reserve")
         buttonReserve.setAttribute("id", vehicle["card"]["id"])
-        buttonReserve.onclick = function() {
+        buttonReserve.onclick = function () {
             reservationModal.style.display = "block";
             let b = document.getElementsByClassName("do-reserve")[0]
             b.setAttribute("id", this.id)
@@ -172,16 +171,15 @@ function fillTable(vehicles) {
         cell4.appendChild(buttonReserve)
     }
     document.getElementById("card-table").appendChild(table);
-
 }
 
 var reservationModal = document.getElementById("reservation-modal");
 var reservationSpan = document.getElementById("reservation-close");
 
-reservationSpan.onclick = function() {
+reservationSpan.onclick = function () {
     reservationModal.style.display = "none";
 }
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == reservationModal) {
         reservationModal.style.display = "none";
     }
@@ -202,7 +200,7 @@ function reserve() {
     let request = new XMLHttpRequest();
     request.open('POST', reservationUri);
     request.setRequestHeader('Content-Type', 'application/json');
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 alert("Reservation successful!")
@@ -218,7 +216,7 @@ function reserve() {
 function cancel(id) {
     let request = new XMLHttpRequest();
     request.open('GET', cancelUri + id);
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 alert("Cancel successful!")
@@ -234,7 +232,7 @@ function cancel(id) {
 function arrive(reservationId) {
     let request = new XMLHttpRequest();
     request.open('GET', arriveUri + reservationId);
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 alert("Arrive successful!")
@@ -272,7 +270,7 @@ function createVehicle() {
     let request = new XMLHttpRequest();
     request.open('POST', vehicleCreateUri);
     request.setRequestHeader('Content-Type', 'application/json');
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 alert("Vehicle creation successful!")

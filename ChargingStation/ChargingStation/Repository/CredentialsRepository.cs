@@ -17,12 +17,12 @@ public class CredentialsRepository : ICredentialsRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<Credentials>> GetAll()
     {
         return await _chargingStationContext.Credentials
-            .Where(x=>!x.IsDeleted)
-            .ToListAsync(); 
+            .Where(x => !x.IsDeleted)
+            .ToListAsync();
     }
 
     public Task<Credentials> GetById(decimal id)
@@ -33,8 +33,8 @@ public class CredentialsRepository : ICredentialsRepository
     public async Task<Credentials> GetById(string id)
     {
         return await _chargingStationContext.Credentials
-            .Where(x=>x.Username == id && !x.IsDeleted)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Username == id && !x.IsDeleted)
+            .FirstOrDefaultAsync();
     }
 
     public void Save()

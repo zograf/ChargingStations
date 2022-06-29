@@ -4,8 +4,6 @@ let arriveUri = "https://localhost:7265/api/Charging/arrive";
 
 let userId = sessionStorage.getItem("userId");
 
-
-
 let request = new XMLHttpRequest();
 request.open('GET', clientUri + userId);
 request.onreadystatechange = function () {
@@ -19,8 +17,6 @@ request.onreadystatechange = function () {
     }
 }
 request.send();
-
-
 
 let req = new XMLHttpRequest();
 req.open('GET', cardUri + userId);
@@ -47,14 +43,14 @@ var reservationModal = document.getElementById("reservation-modal");
 var reservationSpan = document.getElementById("reservation-close");
 var btnArrive = document.getElementsByClassName("btn-arrive")[0]
 
-btnArrive.onclick = function() {
+btnArrive.onclick = function () {
     reservationModal.style.display = "block";
 }
 
-reservationSpan.onclick = function() {
+reservationSpan.onclick = function () {
     reservationModal.style.display = "none";
 }
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == reservationModal) {
         reservationModal.style.display = "none";
     }
@@ -67,7 +63,7 @@ function fillSelect(vehicles) {
         option = document.createElement('option');
         option.setAttribute('value', vehicle["card"]["id"]);
         option.appendChild(document.createTextNode(vehicle["name"]));
-        select.appendChild(option); 
+        select.appendChild(option);
     }
 }
 
@@ -93,4 +89,3 @@ function reserve() {
     }
     req.send(JSON.stringify(dto));
 }
-

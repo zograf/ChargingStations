@@ -2,16 +2,14 @@ let loginUri = "https://localhost:7265/api/Credentials/login"
 let loggedCreds;
 let loginForm = document.getElementById("login-form");
 
-
-document.getElementById("submit").addEventListener("click", function(){
+document.getElementById("submit").addEventListener("click", function () {
     login()
 });
-
 
 function login() {
     let username = document.getElementById("username").value.trim();
     let password = document.getElementById("password").value.trim();
-    if (username=="" || password=="") {
+    if (username == "" || password == "") {
         alert("Please fill all input fields.")
     } else {
         processLogin(username, password);
@@ -31,7 +29,7 @@ function processLogin(username, password) {
         password: password
     }
     let request = new XMLHttpRequest();
-    request.open('PUT', loginUri); 
+    request.open('PUT', loginUri);
     request.setRequestHeader('Content-Type', 'application/json');
     request.onreadystatechange = function () {
         if (this.readyState == 4) {
@@ -42,7 +40,6 @@ function processLogin(username, password) {
                 console.log(loggedCreds);
                 setUserId();
                 redirectUser();
-    
             } else {
                 alert(this.responseText);
             }
@@ -50,7 +47,6 @@ function processLogin(username, password) {
     }
 
     request.send(JSON.stringify(dto));
-
 }
 
 function setUserId() {
@@ -71,4 +67,3 @@ function redirectUser() {
             break;
     }
 }
-

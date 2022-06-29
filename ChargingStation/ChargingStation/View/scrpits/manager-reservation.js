@@ -1,10 +1,9 @@
 var spotsUri = "https://localhost:7265/api/ChargingSpot";
 
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let request = new XMLHttpRequest();
     request.open('GET', spotsUri);
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 spots = JSON.parse(request.responseText);
@@ -15,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     request.send()
-
 }, false);
 
 function makeSpots(spots) {

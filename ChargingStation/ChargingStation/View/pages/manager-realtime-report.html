@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles/manager-realtime-report.css" type="text/css">
+    <title>Realtime report</title>
+</head>
+<body>
+    <div class="big-div">
+        <nav>
+            <ul>
+                <li>
+                    <a href="manager-homepage.html" class="left">
+                        Homepage
+                    </a>
+                </li>
+                <li>
+                    <a href="manager-reservation-report.html" class="left">
+                        Reservation report
+                    </a>
+                </li>
+                <li>
+                    <a href="manager-realtime-report.html" class="current-page left">
+                        Realtime report
+                    </a>
+                </li>
+                <li>
+                    <a href="login.html" class="right">
+                        Logout
+                    </a>
+                </li>
+            </ul>
+
+            <br>
+            <br>
+            <hr>
+        </nav>
+        <div id="legend">
+            <h4>Legend</h4>
+            <div class="legend-entry vacant">
+                Vacant
+            </div>
+            <div class="legend-entry reserved">
+                Reserved
+            </div>
+            <div class="legend-entry charging">
+                Charging
+            </div>
+            <div class="legend-entry malfunction">
+                Malfunction
+            </div>
+        </div>
+
+        <div id="spots">
+            <br />
+            <h1>Current state</h1>
+            <br />
+
+            <button id="malfunction" class="btn">Malfunction</button>
+            <button id="repair" class="btn">Repair</button>
+            <button id="reserve" class="btn">Reserve</button>
+            <button id="arrive" class="btn">Arrive</button>
+            <br />
+            <div id="spots-holder">
+            </div>
+        </div>
+    </div>
+    <script src="../scrpits/Realtime-report.js"></script>
+</body>
+</html>

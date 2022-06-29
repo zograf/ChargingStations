@@ -17,13 +17,13 @@ public class UserRepository : IUserRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<User>> GetAll()
     {
         return await _chargingStationContext.Users
-            .Where(x=>!x.IsDeleted)
-            .Include(x=>x.Credentials)
-            .ToListAsync(); 
+            .Where(x => !x.IsDeleted)
+            .Include(x => x.Credentials)
+            .ToListAsync();
     }
 
     public Task<User> GetById(string id)
@@ -34,8 +34,8 @@ public class UserRepository : IUserRepository
     public async Task<User> GetById(decimal id)
     {
         return await _chargingStationContext.Users
-            .Where(x=>x.Id == id && !x.IsDeleted)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Id == id && !x.IsDeleted)
+            .FirstOrDefaultAsync();
     }
 
     public void Save()

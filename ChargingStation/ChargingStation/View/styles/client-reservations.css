@@ -10,9 +10,7 @@ body {
     flex-direction: column;
     position: relative;
     background: linear-gradient(135deg, rgba(36, 46, 77, .9), rgba(137, 126, 121, .9));
-    font-family: '
- Roboto'
-, helvetica, arial, sans-serif;
+    font-family: ' Roboto', helvetica, arial, sans-serif;
     font-size: 1.5em;
 }
 
@@ -50,9 +48,9 @@ a {
     padding-right: 2%;
 }
 
-a:hover {
-    color: #00d6b7;
-}
+    a:hover {
+        color: #00d6b7;
+    }
 
 .current-page {
     color: #00d6b7;
@@ -171,7 +169,6 @@ td {
     /* Black w/ opacity */
 }
 
-
 /* Modal Content/Box */
 
 .modal-content {
@@ -184,7 +181,6 @@ td {
     /* Could be more or less, depending on screen size */
 }
 
-
 /* The Close Button */
 
 .close {
@@ -194,12 +190,12 @@ td {
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
 input {
     margin-top: 10px;

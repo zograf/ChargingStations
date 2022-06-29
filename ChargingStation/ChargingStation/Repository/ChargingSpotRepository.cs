@@ -1,6 +1,5 @@
 using ChargingStation.Data;
 using ChargingStation.Data.Entity;
-using ChargingStation.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -9,8 +8,11 @@ namespace ChargingStation.Repository;
 public interface IChargingSpotRepository : IRepository<ChargingSpot>
 {
     public Task<IEnumerable<ChargingSpot>> GetByStation(decimal stationId);
+
     public Task<ChargingSpot> GetByReservationId(decimal id);
+
     public Task<IEnumerable<ChargingSpot>> GeForReservation();
+
     public Task<IEnumerable<ChargingSpot>> GetForSuddenArrival();
 }
 
@@ -22,14 +24,14 @@ public class ChargingSpotRepository : IChargingSpotRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<ChargingSpot>> GetAll()
     {
         return await _chargingStationContext.ChargingSpots
-            .Where(x=>!x.IsDeleted)
-            .Include(y=>y.Chargings)
-            .Include(z=>z.Reservations)
-            .ToListAsync(); 
+            .Where(x => !x.IsDeleted)
+            .Include(y => y.Chargings)
+            .Include(z => z.Reservations)
+            .ToListAsync();
     }
 
     public Task<ChargingSpot> GetById(string id)
@@ -40,15 +42,15 @@ public class ChargingSpotRepository : IChargingSpotRepository
     public async Task<ChargingSpot> GetById(decimal id)
     {
         return await _chargingStationContext.ChargingSpots
-            .Where(x=>x.Id == id && !x.IsDeleted)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Id == id && !x.IsDeleted)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<ChargingSpot> GetByReservationId(decimal id)
     {
         List<ChargingSpot> cs = await _chargingStationContext.ChargingSpots
-            .Where(x=>!x.IsDeleted)
-            .Include(x=>x.Reservations)
+            .Where(x => !x.IsDeleted)
+            .Include(x => x.Reservations)
             .ToListAsync();
         foreach (var item in cs)
         {

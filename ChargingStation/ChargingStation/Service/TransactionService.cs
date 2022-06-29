@@ -1,4 +1,3 @@
-using System.Transactions;
 using ChargingStation.Domain.DTOs;
 using ChargingStation.Domain.Models;
 using ChargingStation.Repository;
@@ -19,7 +18,7 @@ public class TransactionService : ITransactionService
     {
         _transactionRepository = transactionRepository;
     }
-    
+
     public async Task<List<TransactionDomainModel>> GetAll()
     {
         List<Transaction> transactions = await _transactionRepository.GetAll();

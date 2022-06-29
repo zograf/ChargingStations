@@ -16,7 +16,7 @@ public class AddressService : IAddressService
     {
         _addressRepository = addressRepository;
     }
-    
+
     public async Task<List<AddressDomainModel>> GetAll()
     {
         List<Address> addresses = await _addressRepository.GetAll();
