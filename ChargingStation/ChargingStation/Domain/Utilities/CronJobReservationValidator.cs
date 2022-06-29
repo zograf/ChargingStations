@@ -16,9 +16,10 @@ namespace ChargingStation.Domain.Utilities
         {
             using (IServiceScope scope = _provider.CreateScope())
             {
-                IReservationService reservationService = scope.ServiceProvider.GetRequiredService<IReservationService>();
+                IReservationService reservationService =
+                    scope.ServiceProvider.GetRequiredService<IReservationService>();
                 List<ClientDomainModel> clients = await reservationService.CheckValidity();
-                // TODO: Do something
+                await Task.Delay(10000);
             }
         }
     }

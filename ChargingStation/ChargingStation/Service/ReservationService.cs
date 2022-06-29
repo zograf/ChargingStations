@@ -18,14 +18,17 @@ public class ReservationService : IReservationService
     private readonly IReservationRepository _reservationRepository;
     private readonly IChargingSpotService _chargingSpotService;
     private readonly IPriceService _priceService;
+    private readonly IClientRepository _clientRepository;
 
     public ReservationService(IReservationRepository reservationRepository,
         IChargingSpotService chargingSpotService,
-        IPriceService priceService)
+        IPriceService priceService,
+        IClientRepository clientRepository)
     {
         _reservationRepository = reservationRepository;
         _chargingSpotService = chargingSpotService;
         _priceService = priceService;
+        _clientRepository = clientRepository;
     }
     
     public async Task<List<ReservationDomainModel>> GetAll()
@@ -39,7 +42,29 @@ public class ReservationService : IReservationService
     
     public async Task<List<ClientDomainModel>> CheckValidity()
     {
-        return new List<ClientDomainModel>();
+        List<Client> clients = await _clientRepository.GetAll();
+        List<Client> result = new List<Client>();
+        DateTime now = DateTime.Now;
+        foreach (var client in clients)
+        {
+            foreach (var vehicle in client.Vehicles)
+            {
+                foreach (var reservation in vehicle.Card.Reservations)
+                {
+                    if (reservation.ChargingId != null) continue;
+                    if (reservation.StartTime.AddSeconds(10) > now)
+                    {
+                        await Cancel(reservation.Id);
+                        if (!result.Contains(client)) 
+                            result.Add(client);
+                    }
+                }
+            }
+        }
+        List<ClientDomainModel> ret = new List<ClientDomainModel>();
+        foreach (var item in result)
+            ret.Add(ClientService.ParseToModel(item));
+        return ret;
     }
     
     public async Task<ReservationDomainModel> Cancel(decimal id)

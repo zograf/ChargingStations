@@ -22,6 +22,9 @@ public class ClientRepository : IClientRepository
     public async Task<List<Client>> GetAll()
     {
         return await _chargingStationContext.Clients
+            .Include(x=>x.Vehicles)
+            .ThenInclude(y=>y.Card)
+            .ThenInclude(z=>z.Reservations)
             .ToListAsync(); 
     }
 
