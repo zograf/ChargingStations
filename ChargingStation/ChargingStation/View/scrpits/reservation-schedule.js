@@ -5,6 +5,8 @@ var timeSlotsUri = "https://localhost:7265/api/Reservation/reserved-slots=" + sp
 var containerHeight = 1200;
 document.addEventListener('DOMContentLoaded', function() {
     printFixedTimeSlots();
+    let title = document.getElementById("spot");
+    title.innerText = "Charging spot with id " + spotId + " schedule: ";
     let request = new XMLHttpRequest();
     request.open('GET', timeSlotsUri);
     request.onreadystatechange = function() {
