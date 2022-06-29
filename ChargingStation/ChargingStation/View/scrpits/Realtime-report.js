@@ -4,13 +4,18 @@ var malfunctionUri = "https://localhost:7265/api/RealtimeReport/malfunction";
 var reserveUri = "https://localhost:7265/api/RealtimeReport/reserve";
 var arriveUri = "https://localhost:7265/api/RealtimeReport/arrive";
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', checkChanges(), false);
+
+checkChanges()
+
+function checkChanges() {
     let request = new XMLHttpRequest();
     request.open('GET', reportUri);
     request.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 spots = JSON.parse(request.responseText);
+                clearSpots();
                 makeSpots(spots);
             } else {
                 alert("Error during card loading");
@@ -18,10 +23,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     request.send()
-}, false);
+    setTimeout(function () { checkChanges() }, 10000);
+}
+
+function clearSpots() {
+    let spotsContainer = document.getElementById("spots-holder");
+    spotsContainer.textContent = '';
+}
 
 function makeSpots(spots) {
-    let spotsContainer = document.getElementById("spots");
+    let spotsContainer = document.getElementById("spots-holder");
+
     for (let key in spots) {
         let spotDiv = document.createElement("div");
         spotDiv.textContent = key;

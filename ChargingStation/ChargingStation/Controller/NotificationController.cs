@@ -1,5 +1,4 @@
 using ChargingStation.Domain.Models;
-using ChargingStation.Repository;
 using ChargingStation.Service;
 using Microsoft.AspNetCore.Mvc;
 

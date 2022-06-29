@@ -11,9 +11,9 @@ public class Manager
 
     [Column("id1")]
     public decimal UserId { get; set; }
-    
+
     [Column("station_id")]
     public decimal StationId { get; set; }
-    
+
     public User User { get; set; }
 }

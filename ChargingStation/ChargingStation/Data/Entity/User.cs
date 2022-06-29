@@ -11,9 +11,9 @@ public class User
 
     [Column("role")]
     public string Role { get; set; }
-    
+
     [Column("is_deleted")]
     public bool IsDeleted { get; set; }
-    
+
     public Credentials Credentials { get; set; }
 }

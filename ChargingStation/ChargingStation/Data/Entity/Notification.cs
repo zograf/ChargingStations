@@ -11,7 +11,7 @@ public class Notification
 
     [Column("is_read")]
     public bool IsRead { get; set; }
-    
+
     [Column("client_id")]
     public decimal ClientId { get; set; }
 }

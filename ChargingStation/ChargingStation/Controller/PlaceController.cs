@@ -21,6 +21,4 @@ public class PlaceController : ControllerBase
         List<PlaceDomainModel> places = await _placeService.GetAll();
         return Ok(places);
     }
-
-    
 }

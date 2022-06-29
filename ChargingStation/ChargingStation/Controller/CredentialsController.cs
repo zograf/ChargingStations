@@ -22,7 +22,7 @@ public class CredentialsController : ControllerBase
         List<CredentialsDomainModel> credentials = await _credentialsService.GetAll();
         return Ok(credentials);
     }
-    
+
     [HttpPut]
     [Route("login")]
     public async Task<ActionResult<CredentialsDomainModel>> GetUser(UsernamePasswordDTO dto)
