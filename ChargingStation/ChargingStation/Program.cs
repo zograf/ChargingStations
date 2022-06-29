@@ -89,6 +89,12 @@ builder.Services.AddCronJob<CronJobReservationValidator>(c =>
     c.CronExpression = @"* * * * *";
 });
 
+builder.Services.AddCronJob<CronJobStateManager>(c =>
+{
+    c.TimeZoneInfo = TimeZoneInfo.Local;
+    c.CronExpression = @"* * * * *";
+});
+
 
 var app = builder.Build();
 

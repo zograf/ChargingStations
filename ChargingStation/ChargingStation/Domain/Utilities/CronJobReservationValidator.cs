@@ -18,9 +18,6 @@ namespace ChargingStation.Domain.Utilities
             {
                 IReservationService reservationService =
                     scope.ServiceProvider.GetRequiredService<IReservationService>();
-                IChargingSpotService chargingSpotService =
-                    scope.ServiceProvider.GetRequiredService<IChargingSpotService>();
-                _ = await chargingSpotService.ManageStates();
                 _ = await reservationService.CheckValidity();
             }
         }
