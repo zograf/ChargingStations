@@ -4,6 +4,7 @@ let getReservationsUri = "https://localhost:7265/api/Reservation";
 let cancelUri = "https://localhost:7265/api/Reservation/cancel/id=";
 let notificatonUri = "https://localhost:7265/api/Notification/userId=";
 let arriveUri = "https://localhost:7265/api/Reservation/arrive/reservationId="
+let vehicleCreateUri = "https://localhost:7265/api/Vehicle/Create";
 
 let id = sessionStorage.getItem("userId");
 
@@ -15,7 +16,7 @@ checkNotifications()
 function checkNotifications() {
     let request = new XMLHttpRequest();
     request.open('GET', notificatonUri + id);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 let notifications = JSON.parse(request.responseText);
@@ -29,12 +30,12 @@ function checkNotifications() {
         }
     }
     request.send()
-    setTimeout(function(){checkNotifications()}, 15000);
+    setTimeout(function() { checkNotifications() }, 15000);
 }
 
 let request = new XMLHttpRequest();
 request.open('GET', cardUri + id);
-request.onreadystatechange = function () {
+request.onreadystatechange = function() {
     if (this.readyState === 4) {
         if (this.status === 200) {
             vehicles = JSON.parse(request.responseText);
@@ -46,10 +47,11 @@ request.onreadystatechange = function () {
     }
 }
 request.send()
+
 function res() {
     request = new XMLHttpRequest();
     request.open('GET', getReservationsUri);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 reservations = JSON.parse(request.responseText);
@@ -95,7 +97,7 @@ function fillReservations(vehicles) {
         let cell5 = row.insertCell(4);
         let cell6 = row.insertCell(5);
 
-        j+=1
+        j += 1
 
         cell1.innerHTML = reservation["cardId"];
         cell2.innerHTML = vehicle["name"];
@@ -126,7 +128,7 @@ function fillReservations(vehicles) {
 
 function getVehicleByCardId(cardId) {
     for (let i = 0; i < vehicles.length; i++) {
-        if (vehicles[i]["card"]["id"] == cardId) 
+        if (vehicles[i]["card"]["id"] == cardId)
             return vehicles[i]
     }
     return null;
@@ -148,7 +150,7 @@ function fillTable(vehicles) {
         let vehicle = vehicles[i]
         if (vehicle["card"] == null) continue
 
-        let row = table.insertRow(i+1);
+        let row = table.insertRow(i + 1);
         row.setAttribute("id", vehicle["card"]["id"]);
         let cell1 = row.insertCell(0);
         let cell2 = row.insertCell(1);
@@ -177,12 +179,12 @@ var reservationModal = document.getElementById("reservation-modal");
 var reservationSpan = document.getElementById("reservation-close");
 
 reservationSpan.onclick = function() {
-  reservationModal.style.display = "none";
+    reservationModal.style.display = "none";
 }
 window.onclick = function(event) {
-  if (event.target == reservationModal) {
-    reservationModal.style.display = "none";
-  }
+    if (event.target == reservationModal) {
+        reservationModal.style.display = "none";
+    }
 }
 
 function reserve() {
@@ -200,7 +202,7 @@ function reserve() {
     let request = new XMLHttpRequest();
     request.open('POST', reservationUri);
     request.setRequestHeader('Content-Type', 'application/json');
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 alert("Reservation successful!")
@@ -216,7 +218,7 @@ function reserve() {
 function cancel(id) {
     let request = new XMLHttpRequest();
     request.open('GET', cancelUri + id);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 alert("Cancel successful!")
@@ -232,7 +234,7 @@ function cancel(id) {
 function arrive(reservationId) {
     let request = new XMLHttpRequest();
     request.open('GET', arriveUri + reservationId);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 alert("Arrive successful!")
@@ -243,4 +245,42 @@ function arrive(reservationId) {
         }
     }
     request.send();
+}
+
+function revealVehicleModal() {
+    document.getElementById("vehicle-modal").style.display = "block";
+}
+
+function hideVehicleModal() {
+    document.getElementById("vehicle-modal").style.display = "none";
+}
+
+function hideVehicleModal() {
+    document.getElementById("vehicle-modal").style.display = "none";
+}
+
+function createVehicle() {
+    let name = document.getElementById("vehicle-name").value;
+    let plates = document.getElementById("vehicle-plates").value;
+    let power = document.getElementById("vehicle-power").value;
+    let dto = {
+        name: name,
+        registrationNumber: plates,
+        power: power,
+        clientId: id
+    }
+    let request = new XMLHttpRequest();
+    request.open('POST', vehicleCreateUri);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                alert("Vehicle creation successful!")
+                document.location.reload()
+            } else {
+                alert("Vehicle creation fail!");
+            }
+        }
+    }
+    request.send(JSON.stringify(dto));
 }
