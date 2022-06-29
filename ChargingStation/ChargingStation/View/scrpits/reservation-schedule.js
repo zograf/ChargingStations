@@ -3,13 +3,13 @@ const urlParams = new URLSearchParams(queryString);
 const spotId = urlParams.get('spotId')
 var timeSlotsUri = "https://localhost:7265/api/Reservation/reserved-slots=" + spotId;
 var containerHeight = 1200;
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     printFixedTimeSlots();
     let title = document.getElementById("spot");
     title.innerText = "Charging spot with id " + spotId + " schedule: ";
     let request = new XMLHttpRequest();
     request.open('GET', timeSlotsUri);
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 slots = JSON.parse(request.responseText);
@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     request.send(parseFloat(spotId));
-
 }, false);
 
 var diffHours = (a, b) => {
@@ -57,7 +56,6 @@ function printFixedTimeSlots() {
     }
 }
 
-
 function printSlots(slots) {
     let timeSlotsContainer = document.getElementById("time-slots");
     let now = new Date();
@@ -81,7 +79,6 @@ function printSlots(slots) {
         timeSlot.style.setProperty("margin-top", startNowOffset + "px");
         timeSlot.style.setProperty("height", (startEndOffset - startNowOffset) + "px");
         timeSlotsContainer.appendChild(timeSlot);
-
 
         console.log(start);
         console.log(end)

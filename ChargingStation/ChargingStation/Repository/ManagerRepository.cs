@@ -17,11 +17,11 @@ public class ManagerRepository : IManagerRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<Manager>> GetAll()
     {
         return await _chargingStationContext.Managers
-            .ToListAsync(); 
+            .ToListAsync();
     }
 
     public Task<Manager> GetById(string id)
@@ -32,8 +32,8 @@ public class ManagerRepository : IManagerRepository
     public async Task<Manager> GetById(decimal id)
     {
         return await _chargingStationContext.Managers
-            .Where(x=>x.Id == id)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Id == id)
+            .FirstOrDefaultAsync();
     }
 
     public void Save()

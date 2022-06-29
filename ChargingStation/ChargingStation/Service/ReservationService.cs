@@ -2,16 +2,19 @@ using ChargingStation.Data.Entity;
 using ChargingStation.Domain.DTOs;
 using ChargingStation.Domain.Models;
 using ChargingStation.Repository;
-using Microsoft.Data.SqlClient;
 
 namespace ChargingStation.Service;
 
 public interface IReservationService : IService<ReservationDomainModel>
 {
     public Task<List<ClientDomainModel>> CheckValidity();
+
     public Task<ReservationDomainModel> Arrive(decimal id);
+
     public Task<ReservationDomainModel> CreateReservation(ReservationDTO dto);
+
     Task<IEnumerable<Tuple<DateTime, DateTime>>> GetReservedTimeSlots(decimal slotId);
+
     public Task<ReservationDomainModel> Cancel(decimal id);
 }
 
@@ -61,7 +64,7 @@ public class ReservationService : IReservationService
             ReservationId = reservation.Id,
             UnitPrice = reservation.UnitPrice
         };
-        decimal duration = (decimal) (reservation.EndTime - reservation.StartTime).TotalHours;
+        decimal duration = (decimal)(reservation.EndTime - reservation.StartTime).TotalHours;
         Card card = await _cardRepository.GetById(reservation.CardId);
         Vehicle vehicle = await _vehicleRepository.GetById(card.VehicleId);
         decimal totalPrice = reservation.UnitPrice * duration * vehicle.Power;
@@ -83,7 +86,7 @@ public class ReservationService : IReservationService
             result.Add(ParseToModel(item));
         return result;
     }
-    
+
     public async Task<List<ClientDomainModel>> CheckValidity()
     {
         List<Client> clients = await _clientRepository.GetAll();
@@ -108,7 +111,7 @@ public class ReservationService : IReservationService
                             _chargingSpotRepository.Update(cs);
                             _chargingSpotRepository.Save();
                         }
-                        if (!result.Contains(client)) 
+                        if (!result.Contains(client))
                             result.Add(client);
                     }
                 }
@@ -177,9 +180,9 @@ public class ReservationService : IReservationService
     private async Task<Reservation> FindReservation(DateTime start, DateTime end, decimal cardId)
     {
         IEnumerable<ChargingSpotDomainModel> spots = await _chargingSpotService.GetForReservations();
-        foreach(ChargingSpotDomainModel spot in spots)
+        foreach (ChargingSpotDomainModel spot in spots)
         {
-            if(! await OverlapsReservations(start, end, spot))
+            if (!await OverlapsReservations(start, end, spot))
                 return new Reservation
                 {
                     StartTime = start,
@@ -192,7 +195,7 @@ public class ReservationService : IReservationService
         }
         return null;
     }
-    
+
     private async Task<bool> OverlapsReservations(DateTime start, DateTime end, ChargingSpotDomainModel spot)
     {
         IEnumerable<ReservationDomainModel> reservations = await GetByChargingSpot(spot);

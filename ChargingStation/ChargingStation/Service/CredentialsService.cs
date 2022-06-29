@@ -21,7 +21,7 @@ public class CredentialsService : ICredentialsService
         _credentialsRepository = credentialsRepository;
         _userRepository = userRepository;
     }
-    
+
     public async Task<List<CredentialsDomainModel>> GetAll()
     {
         List<Credentials> credentials = await _credentialsRepository.GetAll();
@@ -48,7 +48,7 @@ public class CredentialsService : ICredentialsService
             Password = credentials.Password,
             IsDeleted = credentials.IsDeleted
         };
-        
+
         return credentialsModel;
     }
 }

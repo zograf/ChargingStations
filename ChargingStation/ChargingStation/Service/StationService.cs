@@ -16,7 +16,7 @@ public class StationService : IStationService
     {
         _stationRepository = stationRepository;
     }
-    
+
     public async Task<List<StationDomainModel>> GetAll()
     {
         List<Station> stations = await _stationRepository.GetAll();
@@ -37,7 +37,7 @@ public class StationService : IStationService
 
         if (station.Manager != null)
             stationModel.Manager = ManagerService.ParseToModel(station.Manager);
-        
+
         if (station.Address != null)
             stationModel.Address = AddressService.ParseToModel(station.Address);
 
@@ -45,7 +45,7 @@ public class StationService : IStationService
         if (station.BasePrices != null)
             foreach (var item in station.BasePrices)
                 stationModel.BasePrices.Add(PriceService.ParseToModel(item));
-        
+
         stationModel.ChargingSpots = new List<ChargingSpotDomainModel>();
         if (station.ChargingSpots != null)
             foreach (var item in station.ChargingSpots)

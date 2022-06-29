@@ -17,12 +17,12 @@ public class CardRepository : ICardRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<Card>> GetAll()
     {
         return await _chargingStationContext.Cards
-            .Where(x=>!x.IsDeleted)
-            .ToListAsync(); 
+            .Where(x => !x.IsDeleted)
+            .ToListAsync();
     }
 
     public Task<Card> GetById(string id)
@@ -33,8 +33,8 @@ public class CardRepository : ICardRepository
     public async Task<Card> GetById(decimal id)
     {
         return await _chargingStationContext.Cards
-            .Where(x=>x.Id == id && !x.IsDeleted)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Id == id && !x.IsDeleted)
+            .FirstOrDefaultAsync();
     }
 
     public void Save()

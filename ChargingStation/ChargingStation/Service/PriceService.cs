@@ -24,7 +24,7 @@ public class PriceService : IPriceService
         _chargingSpotRepository = chargingSpotRepository;
         _reservationRepository = reservationRepository;
     }
-    
+
     public async Task<List<BasePriceDomainModel>> GetAll()
     {
         List<BasePrice> basePrices = await _basePriceRepository.GetAll();
@@ -53,7 +53,7 @@ public class PriceService : IPriceService
         decimal price;
         price = DateTimeUtils.IsDay(timeOfCharging) ? basePrice.DayAmount : basePrice.NightAmount;
         price *= await CalculateBusyness(stationId, timeOfCharging);
-        
+
         return price;
     }
 
@@ -67,7 +67,7 @@ public class PriceService : IPriceService
             IEnumerable<Reservation> reservations = await _reservationRepository.GetByChargingSpot(spot.Id);
             foreach (Reservation reservation in reservations)
             {
-                if(timeOfCharging >= reservation.StartTime && timeOfCharging <= reservation.EndTime)
+                if (timeOfCharging >= reservation.StartTime && timeOfCharging <= reservation.EndTime)
                     count++;
             }
         }

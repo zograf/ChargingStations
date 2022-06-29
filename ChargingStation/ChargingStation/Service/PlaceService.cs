@@ -16,7 +16,7 @@ public class PlaceService : IPlaceService
     {
         _placeRepository = placeRepository;
     }
-    
+
     public async Task<List<PlaceDomainModel>> GetAll()
     {
         List<Place> places = await _placeRepository.GetAll();
@@ -39,7 +39,7 @@ public class PlaceService : IPlaceService
         if (place.Addresses != null)
             foreach (var item in place.Addresses)
                 placeModel.Addresses.Add(AddressService.ParseToModel(item));
-        
+
         return placeModel;
     }
 }

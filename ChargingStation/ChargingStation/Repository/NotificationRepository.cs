@@ -18,12 +18,12 @@ public class NotificationRepository : INotificationRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<Notification>> GetAll()
     {
         return await _chargingStationContext.Notifications
-            .Where(x=>!x.IsRead)
-            .ToListAsync(); 
+            .Where(x => !x.IsRead)
+            .ToListAsync();
     }
 
     public Task<Notification> GetById(string id)
@@ -35,12 +35,12 @@ public class NotificationRepository : INotificationRepository
     {
         return null;
     }
-    
+
     public async Task<List<Notification>> GetByClientId(decimal id)
     {
         return await _chargingStationContext.Notifications
-            .Where(x=>!x.IsRead && x.ClientId == id)
-            .ToListAsync(); 
+            .Where(x => !x.IsRead && x.ClientId == id)
+            .ToListAsync();
     }
 
     public void Save()
@@ -65,5 +65,4 @@ public class NotificationRepository : INotificationRepository
     {
         return null;
     }
-
 }

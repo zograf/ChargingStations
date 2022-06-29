@@ -18,39 +18,39 @@ public class ClientRepository : IClientRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<Client>> GetAll()
     {
         return await _chargingStationContext.Clients
-            .Include(x=>x.Vehicles)
-            .ThenInclude(y=>y.Card)
-            .ThenInclude(z=>z.Reservations)
-            .ToListAsync(); 
+            .Include(x => x.Vehicles)
+            .ThenInclude(y => y.Card)
+            .ThenInclude(z => z.Reservations)
+            .ToListAsync();
     }
 
     public Task<Client> GetById(string id)
     {
         return null;
     }
-    
+
     public async Task<Client> GetById(decimal id)
     {
         return await _chargingStationContext.Clients
-            .Where(x=>x.Id == id)
-            .Include(x=>x.Vehicles)
-            .ThenInclude(y=>y.Card)
-            .ThenInclude(z=>z.Reservations)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Id == id)
+            .Include(x => x.Vehicles)
+            .ThenInclude(y => y.Card)
+            .ThenInclude(z => z.Reservations)
+            .FirstOrDefaultAsync();
     }
-    
+
     public async Task<Client> GetByUserId(decimal id)
     {
         return await _chargingStationContext.Clients
-            .Where(x=>x.UserId == id)
-            .Include(x=>x.Vehicles)
-            .ThenInclude(y=>y.Card)
-            .ThenInclude(z=>z.Reservations)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.UserId == id)
+            .Include(x => x.Vehicles)
+            .ThenInclude(y => y.Card)
+            .ThenInclude(z => z.Reservations)
+            .FirstOrDefaultAsync();
     }
 
     public void Save()

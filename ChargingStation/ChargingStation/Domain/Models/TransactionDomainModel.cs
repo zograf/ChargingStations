@@ -5,19 +5,19 @@ public class TransactionDomainModel
     public enum TransactionType
     {
         INCREASE,
-        DECREASE 
+        DECREASE
     }
 
     public decimal Id { get; set; }
-    
+
     public decimal Amount { get; set; }
-    
+
     public DateTime Time { get; set; }
-    
+
     public string Type { get; set; }
-    
+
     public decimal ClientId { get; set; }
-    
+
     public bool IsDeleted { get; set; }
 
     public static string TranslateType(TransactionType type)
@@ -27,6 +27,4 @@ public class TransactionDomainModel
         else
             return "decrease";
     }
-
-
 }

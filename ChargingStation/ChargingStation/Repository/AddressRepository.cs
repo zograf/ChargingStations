@@ -17,12 +17,12 @@ public class AddressRepository : IAddressRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<Address>> GetAll()
     {
         return await _chargingStationContext.Addresses
-            .Where(x=>!x.IsDeleted)
-            .ToListAsync(); 
+            .Where(x => !x.IsDeleted)
+            .ToListAsync();
     }
 
     public Task<Address> GetById(string id)
@@ -33,8 +33,8 @@ public class AddressRepository : IAddressRepository
     public async Task<Address> GetById(decimal id)
     {
         return await _chargingStationContext.Addresses
-            .Where(x=>x.Id == id && !x.IsDeleted)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Id == id && !x.IsDeleted)
+            .FirstOrDefaultAsync();
     }
 
     public void Save()

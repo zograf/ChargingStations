@@ -16,7 +16,7 @@ public class CardService : ICardService
     {
         _cardRepository = cardRepository;
     }
-    
+
     public async Task<List<CardDomainModel>> GetAll()
     {
         List<Card> cards = await _cardRepository.GetAll();
@@ -39,15 +39,15 @@ public class CardService : ICardService
         };
 
         cardModel.Reservations = new List<ReservationDomainModel>();
-        if (card.Reservations != null) 
+        if (card.Reservations != null)
             foreach (var item in card.Reservations)
                 cardModel.Reservations.Add(ReservationService.ParseToModel(item));
-        
+
         cardModel.Chargings = new List<ChargingDomainModel>();
         if (card.Chargings != null)
             foreach (var item in card.Chargings)
                 cardModel.Chargings.Add(ChargingService.ParseToModel(item));
-        
+
         return cardModel;
     }
 }

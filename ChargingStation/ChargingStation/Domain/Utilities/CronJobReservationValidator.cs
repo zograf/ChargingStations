@@ -1,4 +1,3 @@
-using ChargingStation.Domain.Models;
 using ChargingStation.Service;
 
 namespace ChargingStation.Domain.Utilities
@@ -6,7 +5,8 @@ namespace ChargingStation.Domain.Utilities
     public class CronJobReservationValidator : CronJobService
     {
         public IServiceProvider _provider;
-        public CronJobReservationValidator(IScheduleConfig<CronJobReservationValidator> config, 
+
+        public CronJobReservationValidator(IScheduleConfig<CronJobReservationValidator> config,
             IServiceProvider serviceProvider) : base(config.CronExpression, config.TimeZoneInfo)
         {
             _provider = serviceProvider;

@@ -18,12 +18,12 @@ public class VehicleRepository : IVehicleRepository
     {
         _chargingStationContext = chargingStationContext;
     }
-    
+
     public async Task<List<Vehicle>> GetAll()
     {
         return await _chargingStationContext.Vehicles
-            .Where(x=>!x.IsDeleted)
-            .ToListAsync(); 
+            .Where(x => !x.IsDeleted)
+            .ToListAsync();
     }
 
     public Task<Vehicle> GetById(string id)
@@ -34,8 +34,8 @@ public class VehicleRepository : IVehicleRepository
     public async Task<Vehicle> GetById(decimal id)
     {
         return await _chargingStationContext.Vehicles
-            .Where(x=>x.Id == id && !x.IsDeleted)
-            .FirstOrDefaultAsync(); 
+            .Where(x => x.Id == id && !x.IsDeleted)
+            .FirstOrDefaultAsync();
     }
 
     public void Save()

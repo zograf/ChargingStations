@@ -16,7 +16,7 @@ public class ManagerService : IManagerService
     {
         _managerRepository = managerRepository;
     }
-    
+
     public async Task<List<ManagerDomainModel>> GetAll()
     {
         List<Manager> managers = await _managerRepository.GetAll();
@@ -37,7 +37,7 @@ public class ManagerService : IManagerService
 
         if (manager.User != null)
             managerModel.User = UserService.ParseToModel(manager.User);
-        
+
         return managerModel;
     }
 }

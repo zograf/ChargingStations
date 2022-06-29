@@ -8,6 +8,7 @@ namespace ChargingStation.Service;
 public interface IVehicleService : IService<VehicleDomainModel>
 {
     public Task<VehicleDomainModel> Create(VehicleDTO dto);
+
     public Task<IEnumerable<VehicleDomainModel>> GetByClient(decimal clientId);
 }
 
@@ -21,7 +22,7 @@ public class VehicleService : IVehicleService
         _vehicleRepository = vehicleRepository;
         _cardRepository = cardRepository;
     }
-    
+
     public async Task<List<VehicleDomainModel>> GetAll()
     {
         List<Vehicle> vehicles = await _vehicleRepository.GetAll();

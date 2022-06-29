@@ -5,6 +5,5 @@
         public decimal Amount { get; set; }
 
         public decimal ClientId { get; set; }
-
     }
 }
