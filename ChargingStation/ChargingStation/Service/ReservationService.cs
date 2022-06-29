@@ -2,6 +2,7 @@ using ChargingStation.Data.Entity;
 using ChargingStation.Domain.DTOs;
 using ChargingStation.Domain.Models;
 using ChargingStation.Repository;
+using Microsoft.Data.SqlClient;
 
 namespace ChargingStation.Service;
 
@@ -18,14 +19,23 @@ public class ReservationService : IReservationService
     private readonly IReservationRepository _reservationRepository;
     private readonly IChargingSpotService _chargingSpotService;
     private readonly IPriceService _priceService;
+    private readonly IClientRepository _clientRepository;
+    private readonly INotificationRepository _notificationRepository;
+    private readonly IChargingSpotRepository _chargingSpotRepository;
 
     public ReservationService(IReservationRepository reservationRepository,
         IChargingSpotService chargingSpotService,
-        IPriceService priceService)
+        IPriceService priceService,
+        IClientRepository clientRepository,
+        INotificationRepository notificationRepository,
+        IChargingSpotRepository chargingSpotRepository)
     {
         _reservationRepository = reservationRepository;
         _chargingSpotService = chargingSpotService;
         _priceService = priceService;
+        _clientRepository = clientRepository;
+        _notificationRepository = notificationRepository;
+        _chargingSpotRepository = chargingSpotRepository;
     }
     
     public async Task<List<ReservationDomainModel>> GetAll()
@@ -39,9 +49,55 @@ public class ReservationService : IReservationService
     
     public async Task<List<ClientDomainModel>> CheckValidity()
     {
-        return new List<ClientDomainModel>();
+        List<Client> clients = await _clientRepository.GetAll();
+        List<Client> result = new List<Client>();
+        DateTime now = DateTime.Now;
+        foreach (var client in clients)
+        {
+            foreach (var vehicle in client.Vehicles)
+            {
+                if (vehicle.IsDeleted || vehicle.Card.IsDeleted) continue;
+                foreach (var reservation in vehicle.Card.Reservations)
+                {
+                    if (reservation.IsDeleted) continue;
+                    if (reservation.ChargingId != null) continue;
+                    if (reservation.StartTime < now)
+                    {
+                        await Cancel(reservation.Id);
+                        ChargingSpot cs = await _chargingSpotRepository.GetByReservationId(reservation.Id);
+                        if (cs.State == 1)
+                        {
+                            cs.State = 0;
+                            _chargingSpotRepository.Update(cs);
+                            _chargingSpotRepository.Save();
+                        }
+                        if (!result.Contains(client)) 
+                            result.Add(client);
+                    }
+                }
+            }
+        }
+        List<ClientDomainModel> ret = new List<ClientDomainModel>();
+        foreach (var item in result)
+        {
+            ret.Add(ClientService.ParseToModel(item));
+            _ = SendNotification(item.UserId);
+        }
+        return ret;
     }
-    
+
+    public bool SendNotification(decimal id)
+    {
+        Notification notification = new Notification
+        {
+            ClientId = id,
+            IsRead = false
+        };
+        _notificationRepository.Post(notification);
+        _notificationRepository.Save();
+        return true;
+    }
+
     public async Task<ReservationDomainModel> Cancel(decimal id)
     {
         Reservation reservation = await _reservationRepository.GetById(id);

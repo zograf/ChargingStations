@@ -19,6 +19,7 @@ public class ChargingStationContext: DbContext
     public DbSet<Card> Cards { get; set; }
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Place> Places { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
     
     public ChargingStationContext(DbContextOptions options) : base(options)
     {
@@ -92,5 +93,6 @@ public class ChargingStationContext: DbContext
         modelBuilder.Entity<Transaction>().HasKey(x => x.Id);
         modelBuilder.Entity<User>().HasKey(x => x.Id);
         modelBuilder.Entity<Vehicle>().HasKey(x => x.Id);
+        modelBuilder.Entity<Notification>().HasKey(x => x.Id);
     }
 }

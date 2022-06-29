@@ -2,11 +2,32 @@ let cardUri = "https://localhost:7265/api/Client/cards/userId=";
 let reservationUri = "https://localhost:7265/api/Reservation/create";
 let getReservationsUri = "https://localhost:7265/api/Reservation";
 let cancelUri = "https://localhost:7265/api/Reservation/cancel/id=";
+let notificatonUri = "https://localhost:7265/api/Notification/userId=";
 
 let id = sessionStorage.getItem("userId");
 
 var vehicles = []
 var reservations = []
+
+checkNotifications()
+
+function checkNotifications() {
+    let request = new XMLHttpRequest();
+    request.open('GET', notificatonUri + id);
+    request.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                let notifications = JSON.parse(request.responseText);
+                if (notifications.length != 0)
+                    alert("You have missed your reservation")
+            } else {
+                alert("Error during notification loading");
+            }
+        }
+    }
+    request.send()
+    setTimeout(function(){checkNotifications()}, 15000);
+}
 
 let request = new XMLHttpRequest();
 request.open('GET', cardUri + id);
@@ -148,7 +169,7 @@ window.onclick = function(event) {
 
 function reserve() {
     dateStart = document.getElementById("reservation-start").value
-    dateEnd = document.getElementById("reservation-start").value
+    dateEnd = document.getElementById("reservation-end").value
     cardId = document.getElementsByClassName("do-reserve")[0].id
 
     let dto = {
@@ -189,3 +210,4 @@ function cancel(id) {
     }
     request.send();
 }
+
