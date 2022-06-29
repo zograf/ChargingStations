@@ -14,10 +14,12 @@ public interface IVehicleService : IService<VehicleDomainModel>
 public class VehicleService : IVehicleService
 {
     private readonly IVehicleRepository _vehicleRepository;
+    private readonly ICardRepository _cardRepository;
 
-    public VehicleService(IVehicleRepository vehicleRepository)
+    public VehicleService(IVehicleRepository vehicleRepository, ICardRepository cardRepository)
     {
         _vehicleRepository = vehicleRepository;
+        _cardRepository = cardRepository;
     }
     
     public async Task<List<VehicleDomainModel>> GetAll()
@@ -63,7 +65,16 @@ public class VehicleService : IVehicleService
         };
         _vehicleRepository.Post(vehicle);
         _vehicleRepository.Save();
-
+        Card card = new Card
+        {
+            NotComingCounter = 0,
+            IsBlocked = false,
+            StayedLongerCounter = 0,
+            VehicleId = vehicle.Id,
+            IsDeleted = false,
+        };
+        _cardRepository.Post(card);
+        _cardRepository.Save();
         return ParseToModel(vehicle);
     }
 
