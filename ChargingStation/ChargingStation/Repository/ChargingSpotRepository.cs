@@ -1,5 +1,6 @@
 using ChargingStation.Data;
 using ChargingStation.Data.Entity;
+using ChargingStation.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -9,6 +10,8 @@ public interface IChargingSpotRepository : IRepository<ChargingSpot>
 {
     public Task<IEnumerable<ChargingSpot>> GetByStation(decimal stationId);
     public Task<ChargingSpot> GetByReservationId(decimal id);
+    public Task<IEnumerable<ChargingSpot>> GeForReservation();
+    public Task<IEnumerable<ChargingSpot>> GetForSuddenArrival();
 }
 
 public class ChargingSpotRepository : IChargingSpotRepository
@@ -83,5 +86,15 @@ public class ChargingSpotRepository : IChargingSpotRepository
     public async Task<IEnumerable<ChargingSpot>> GetByStation(decimal stationId)
     {
         return await _chargingStationContext.ChargingSpots.Where(x => x.StationId == stationId).ToListAsync();
+    }
+
+    public async Task<IEnumerable<ChargingSpot>> GeForReservation()
+    {
+        return await _chargingStationContext.ChargingSpots.Where(x => x.IsReservable).ToListAsync();
+    }
+
+    public async Task<IEnumerable<ChargingSpot>> GetForSuddenArrival()
+    {
+        return await _chargingStationContext.ChargingSpots.Where(x => !x.IsReservable).ToListAsync();
     }
 }

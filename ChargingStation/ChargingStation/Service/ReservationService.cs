@@ -176,7 +176,7 @@ public class ReservationService : IReservationService
 
     private async Task<Reservation> FindReservation(DateTime start, DateTime end, decimal cardId)
     {
-        IEnumerable<ChargingSpotDomainModel> spots = await _chargingSpotService.GetAll();
+        IEnumerable<ChargingSpotDomainModel> spots = await _chargingSpotService.GetForReservations();
         foreach(ChargingSpotDomainModel spot in spots)
         {
             if(! await OverlapsReservations(start, end, spot))
@@ -192,7 +192,7 @@ public class ReservationService : IReservationService
         }
         return null;
     }
-
+    
     private async Task<bool> OverlapsReservations(DateTime start, DateTime end, ChargingSpotDomainModel spot)
     {
         IEnumerable<ReservationDomainModel> reservations = await GetByChargingSpot(spot);

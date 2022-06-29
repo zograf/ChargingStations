@@ -13,10 +13,15 @@ public interface IChargingService : IService<ChargingDomainModel>
 public class ChargingService : IChargingService
 {
     private readonly IChargingRepository _chargingRepository;
+    private readonly IChargingSpotService _chargingSpotService;
+    private readonly IPriceService _priceService;
 
-    public ChargingService(IChargingRepository chargingRepository)
+    public ChargingService(IChargingRepository chargingRepository, IChargingSpotService chargingSpotService,
+        IPriceService priceService)
     {
         _chargingRepository = chargingRepository;
+        _chargingSpotService = chargingSpotService;
+        _priceService = priceService;
     }
     
     public async Task<List<ChargingDomainModel>> GetAll()
@@ -28,9 +33,44 @@ public class ChargingService : IChargingService
         return result;
     }
 
-    public Task<ChargingDomainModel> Arrive(ArriveDTO dto)
+    public async Task<ChargingDomainModel> Arrive(ArriveDTO dto)
     {
-        throw new NotImplementedException();
+        if (dto.StartTime >= dto.EndTime)
+            throw new Exception("Start time is after end time");
+        if (dto.StartTime < DateTime.Now)
+             throw new Exception("Start time is in the past");
+        Charging charging = await FindAvaliableCharging(dto.StartTime, dto.EndTime, dto.CardId);
+        if (charging is null)
+            throw new Exception("Cannot do charging, no avaliable slots");
+        charging = _chargingRepository.Post(charging);
+        _chargingRepository.Save();
+        return ParseToModel(charging);
+    }
+
+    private async Task<Charging> FindAvaliableCharging(DateTime start, DateTime end, decimal cardId)
+    {
+        IEnumerable<ChargingSpotDomainModel> spots = await _chargingSpotService.GetForSuddenArrival();
+        foreach (ChargingSpotDomainModel spot in spots)
+        {
+            if (spot.State == 0)
+            {
+                decimal duration = (decimal)(end - start).TotalHours;
+                decimal price = await _priceService.GetPrice(spot.StationId, start);
+                return new Charging
+                {
+                    ElectricitySpent = duration,
+                    TotalPrice = duration * price,
+                    StartTime = start,
+                    EndTime = end,
+                    ChargingSpotId = spot.Id,
+                    CardId = cardId,
+                    IsDeleted = false,
+                    UnitPrice = price,
+                };
+            }
+
+        }
+        return null;
     }
 
     public static ChargingDomainModel ParseToModel(Charging charging)
