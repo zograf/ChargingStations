@@ -64,8 +64,8 @@ public class SimulationService : ISimulationService
             cardId = (int)cards[cardId].Id;
             var dto = new Domain.DTOs.ArriveDTO();
             dto.CardId = cardId;
-            dto.StartTime = DateTime.Now;
-            dto.EndTime = DateTime.Now.AddSeconds(120);
+            dto.StartTime = DateTime.Now.AddSeconds(10);
+            dto.EndTime = DateTime.Now.AddSeconds(130);
             await _chargingService.Arrive(dto);
             cardIds.Add(cardId);
         }

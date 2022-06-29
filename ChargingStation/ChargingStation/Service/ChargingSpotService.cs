@@ -11,7 +11,9 @@ public interface IChargingSpotService : IService<ChargingSpotDomainModel>
     public Task ChangeState(decimal id, decimal state);
 
     public Task<Boolean> ManageStates();
+
     Task<IEnumerable<ChargingSpotDomainModel>> GetForReservations();
+
     Task<IEnumerable<ChargingSpotDomainModel>> GetForSuddenArrival();
 }
 
@@ -95,7 +97,6 @@ public class ChargingSpotService : IChargingSpotService
         IEnumerable<ChargingSpot> chargingSpots = await _chargingSpotRepository.GetForSuddenArrival();
         return ParseToModel(chargingSpots);
     }
-}
 
     public async Task<decimal> GetState(int id)
     {

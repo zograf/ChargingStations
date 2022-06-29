@@ -17,14 +17,15 @@ public class ChargingService : IChargingService
     private readonly IChargingSpotRepository _chargingSpotRepository;
     private readonly IPriceService _priceService;
     private readonly ICardRepository _cardRepository;
+    private readonly IChargingSpotService _chargingSpotService;
 
-    public ChargingService(IChargingRepository chargingRepository, IPriceService priceService, IVehicleRepository vehicleRepository, IChargingSpotRepository chargingSpotRepository, ICardRepository cardRepository)
+    public ChargingService(IChargingRepository chargingRepository, IPriceService priceService, IVehicleRepository vehicleRepository, IChargingSpotService chargingSpotService, ICardRepository cardRepository)
     {
         _chargingRepository = chargingRepository;
         _vehicleRepository = vehicleRepository;
-        _chargingSpotRepository = chargingSpotRepository;
         _priceService = priceService;
         _cardRepository = cardRepository;
+        _chargingSpotService = chargingSpotService;
     }
 
     public async Task<List<ChargingDomainModel>> GetAll()
@@ -41,7 +42,7 @@ public class ChargingService : IChargingService
         if (dto.StartTime >= dto.EndTime)
             throw new Exception("Start time is after end time");
         if (dto.StartTime < DateTime.Now)
-             throw new Exception("Start time is in the past");
+            throw new Exception("Start time is in the past");
         Charging charging = await FindAvaliableCharging(dto.StartTime, dto.EndTime, dto.CardId);
         if (charging is null)
             throw new Exception("Cannot do charging, no avaliable slots");
@@ -71,7 +72,6 @@ public class ChargingService : IChargingService
                     UnitPrice = price,
                 };
             }
-
         }
         return null;
     }
