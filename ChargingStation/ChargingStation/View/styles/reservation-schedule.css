@@ -86,20 +86,38 @@ p {
     color: white;
 }
 
-h1 {
+h2 {
     color: white;
     text-align: center;
+    font-family: '
+ Roboto'
+, helvetica, arial, sans-serif;
 }
 
-#charging-spots {
-    text-align: center;
+#schedule {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 520px;
+    margin-left: 25%;
 }
 
-.spot {
-    width: 24%;
-    height: 50px;
-    margin: 10px;
-    display: inline-block;
+.time-slot-container {
+    position: relative;
     background-color: green;
+    width: 200px;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+.time-slot {
+    position: absolute;
+    width: 200px;
     text-align: center;
+}
+
+#time {
+    width: 200px;
+    float: left;
+    margin-bottom: 50px;
+    position: relative;
 }
