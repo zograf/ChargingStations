@@ -50,4 +50,12 @@ public class RealtimeReportController : ControllerBase
         await _simulationService.Arrive();
         return Ok();
     }
+
+    [HttpPut]
+    [Route("reserve")]
+    public async Task<ActionResult> TriggerReserve()
+    {
+        await _simulationService.Reserve();
+        return Ok();
+    }
 }

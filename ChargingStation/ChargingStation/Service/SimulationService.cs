@@ -10,6 +10,8 @@ public interface ISimulationService
     public Task<decimal> Malfunction();
 
     public Task<decimal> Repair();
+
+    public Task<int> Reserve();
 }
 
 public class SimulationService : ISimulationService
@@ -29,19 +31,42 @@ public class SimulationService : ISimulationService
         this._cardService = cardService;
     }
 
-    public async Task<List<decimal>> Arrive()
+    public async Task<int> Reserve()
     {
         Random rand = new Random(Guid.NewGuid().GetHashCode());
         List<CardDomainModel> cards = await _cardService.GetAll();
+
         int cardId = rand.Next(0, cards.Count);
         List<decimal> cardIds = new List<decimal>();
         for (int i = 0; i < 2; i++)
         {
+            cardId = rand.Next(0, cards.Count);
+            cardId = (int)cards[cardId].Id;
+            var dto = new Domain.DTOs.ReservationDTO();
+            dto.CardId = cardId;
+            dto.StartTime = DateTime.Now.AddSeconds(20);
+            dto.EndTime = DateTime.Now.AddSeconds(220);
+            await _reservationService.CreateReservation(dto);
+            cardIds.Add(cardId);
+        }
+        return cardId;
+    }
+
+    public async Task<List<decimal>> Arrive()
+    {
+        Random rand = new Random(Guid.NewGuid().GetHashCode());
+        List<CardDomainModel> cards = await _cardService.GetAll();
+
+        List<decimal> cardIds = new List<decimal>();
+        for (int i = 0; i < 2; i++)
+        {
+            int cardId = rand.Next(0, cards.Count);
+            cardId = (int)cards[cardId].Id;
             var dto = new Domain.DTOs.ArriveDTO();
             dto.CardId = cardId;
             dto.StartTime = DateTime.Now;
             dto.EndTime = DateTime.Now.AddSeconds(120);
-            _chargingService.Arrive(dto);
+            await _chargingService.Arrive(dto);
             cardIds.Add(cardId);
         }
         return cardIds;
