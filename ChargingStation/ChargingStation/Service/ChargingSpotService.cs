@@ -6,8 +6,14 @@ namespace ChargingStation.Service;
 
 public interface IChargingSpotService : IService<ChargingSpotDomainModel>
 {
+    public Task<decimal> GetState(int id);
+
+    public Task ChangeState(decimal id, decimal state);
+
     public Task<Boolean> ManageStates();
+
     Task<IEnumerable<ChargingSpotDomainModel>> GetForReservations();
+
     Task<IEnumerable<ChargingSpotDomainModel>> GetForSuddenArrival();
 }
 
@@ -25,18 +31,21 @@ public class ChargingSpotService : IChargingSpotService
         List<ChargingSpot> chargingSpots = await _chargingSpotRepository.GetAll();
         foreach (var item in chargingSpots)
         {
+            if (item.State == 3)
+            {
+                continue;
+            }
             item.State = 0;
             foreach (var reservation in item.Reservations)
             {
                 if (reservation.IsDeleted) continue;
                 if (reservation.StartTime < DateTime.Now && reservation.EndTime > DateTime.Now)
                     item.State = 1;
-
             }
             foreach (var charging in item.Chargings)
                 if (charging.StartTime < DateTime.Now && charging.EndTime > DateTime.Now)
                     item.State = 2;
-            
+
             _chargingSpotRepository.Update(item);
         }
         _chargingSpotRepository.Save();
@@ -68,7 +77,7 @@ public class ChargingSpotService : IChargingSpotService
         if (chargingSpot.Chargings != null)
             foreach (var item in chargingSpot.Chargings)
                 chargingSpotModel.Chargings.Add(ChargingService.ParseToModel(item));
-        
+
         return chargingSpotModel;
     }
 
@@ -87,5 +96,19 @@ public class ChargingSpotService : IChargingSpotService
     {
         IEnumerable<ChargingSpot> chargingSpots = await _chargingSpotRepository.GetForSuddenArrival();
         return ParseToModel(chargingSpots);
+    }
+
+    public async Task<decimal> GetState(int id)
+    {
+        var spot = await _chargingSpotRepository.GetById(id);
+        return spot.State;
+    }
+
+    public async Task ChangeState(decimal id, decimal state)
+    {
+        var spot = await _chargingSpotRepository.GetById(id);
+        spot.State = state;
+        _chargingSpotRepository.Update(spot);
+        _chargingSpotRepository.Save();
     }
 }
