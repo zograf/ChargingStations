@@ -127,8 +127,8 @@ public class ReservationService : IReservationService
     {
         if (dto.StartTime >= dto.EndTime)
             throw new Exception("Start time is after end time");
-        if (dto.StartTime < DateTime.Now)
-            throw new Exception("Start time is in the past");
+        // if (dto.StartTime < DateTime.Now)
+        //     throw new Exception("Start time is in the past");
         Reservation reservation = await FindReservation(dto.StartTime, dto.EndTime, dto.CardId);
         if (reservation is null)
             throw new Exception("Cannot appoint reservation in that time, no available slots");
