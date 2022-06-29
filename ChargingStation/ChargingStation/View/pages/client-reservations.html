@@ -1,7 +1,9 @@
 <html>
+
 <head>
     <link rel="stylesheet" href="../styles/client-reservations.css" type="text/css">
 </head>
+
 <body>
     <div class="big-div">
         <nav>
@@ -27,10 +29,15 @@
         <br>
         <hr>
         <div id="card-div">
-            <h1>Client cards</h1>
-            <div id="card-table"></div>
-            <h1>Client reservations</h1>
-            <div id="reservation-table"></div>
+            <div class="cards">
+                <h1>Client cards</h1>
+                <div id="card-table"></div>
+                <button id="add-vehicle-btn" onclick="revealVehicleModal()">Add vehicle</button>
+            </div>
+            <div>
+                <h1>Client reservations</h1>
+                <div id="reservation-table"></div>
+            </div>
         </div>
 
         <div id="reservation-modal" class="modal">
@@ -42,12 +49,31 @@
                 <br>
                 <label>Reservation end</label>
                 <br>
-                <input type="datetime-local" id= "reservation-end">
+                <input type="datetime-local" id="reservation-end">
                 <br>
                 <button class="do-reserve" onclick="reserve()">Confirm reservation</button>
+            </div>
+        </div>
+        <div id="vehicle-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="vehicle-close" onclick="hideVehicleModal()">&times;</span>
+                <label>Vehicle name</label>
+                <br>
+                <input type="text" id="vehicle-name" />
+                <br>
+                <label>Register plates</label>
+                <br>
+                <input type="text" id="vehicle-plates" />
+                <br>
+                <label>Power</label>
+                <br>
+                <input type="number" id="vehicle-power" />
+                <br>
+                <button class="do-reserve" onclick="createVehicle()">Confirm vehicle creation</button>
             </div>
         </div>
     </div>
     <script src="../scrpits/client-reservations.js"></script>
 </body>
+
 </html>
