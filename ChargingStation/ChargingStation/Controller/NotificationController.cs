@@ -23,5 +23,11 @@ public class NotificationController : ControllerBase
         return Ok(notifications);
     }
 
-    
+    [HttpGet]
+    [Route("userId={id}")]
+    public async Task<ActionResult<List<NotificationDomainModel>>> GetByUserId(decimal id)
+    {
+        List<NotificationDomainModel> notifications = await _notificationService.GetByUserId(id);
+        return Ok(notifications);
+    }
 }

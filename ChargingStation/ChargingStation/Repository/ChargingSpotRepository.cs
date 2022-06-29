@@ -8,6 +8,7 @@ namespace ChargingStation.Repository;
 public interface IChargingSpotRepository : IRepository<ChargingSpot>
 {
     public Task<IEnumerable<ChargingSpot>> GetByStation(decimal stationId);
+    public Task<ChargingSpot> GetByReservationId(decimal id);
 }
 
 public class ChargingSpotRepository : IChargingSpotRepository
@@ -36,6 +37,21 @@ public class ChargingSpotRepository : IChargingSpotRepository
         return await _chargingStationContext.ChargingSpots
             .Where(x=>x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(); 
+    }
+
+    public async Task<ChargingSpot> GetByReservationId(decimal id)
+    {
+        List<ChargingSpot> cs = await _chargingStationContext.ChargingSpots
+            .Where(x=>!x.IsDeleted)
+            .Include(x=>x.Reservations)
+            .ToListAsync();
+        foreach (var item in cs)
+        {
+            foreach (var r in item.Reservations)
+                if (r.Id == id) return item;
+        }
+
+        return null;
     }
 
     public void Save()

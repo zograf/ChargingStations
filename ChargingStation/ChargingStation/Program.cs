@@ -35,6 +35,7 @@ builder.Services.AddTransient<IStationRepository, StationRepository>();
 builder.Services.AddTransient<ITransactionRepository, TransactionRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IVehicleRepository, VehicleRepository>();
+builder.Services.AddTransient<INotificationRepository, NotificationRepository>();
 
 //Domain
 builder.Services.AddTransient<IAddressService, AddressService>();
@@ -51,6 +52,7 @@ builder.Services.AddTransient<IStationService, StationService>();
 builder.Services.AddTransient<ITransactionService, TransactionService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IVehicleService, VehicleService>();
+builder.Services.AddTransient<INotificationService, NotificationService>();
 
 
 var connectionString = builder.Configuration.GetConnectionString("ChargingStationConnection");
