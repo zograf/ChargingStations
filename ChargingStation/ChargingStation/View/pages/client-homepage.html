@@ -41,6 +41,22 @@
         <div class="arrive-button-div">
             <button class="btn-arrive">Arrive</button>
         </div>
+        <div id="reservation-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="reservation-close">&times;</span>
+                <label class="reservation-start">Start time</label>
+                <br>
+                <input type="datetime-local" id="reservation-start">
+                <br>
+                <label>End time</label>
+                <br>
+                <input type="datetime-local" id= "reservation-end">
+                <br>
+                <select id="card-select">
+                </select>
+                <button class="do-reserve" onclick="reserve()">Arrive</button>
+            </div>
+        </div>
     </div>
     <script src="../scrpits/client-homepage.js"></script>
 </body>

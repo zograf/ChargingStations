@@ -1,4 +1,5 @@
 using ChargingStation.Data.Entity;
+using ChargingStation.Domain.DTOs;
 using ChargingStation.Domain.Models;
 using ChargingStation.Repository;
 
@@ -6,6 +7,7 @@ namespace ChargingStation.Service;
 
 public interface IChargingService : IService<ChargingDomainModel>
 {
+    public Task<ChargingDomainModel> Arrive(ArriveDTO dto);
 }
 
 public class ChargingService : IChargingService
@@ -24,6 +26,11 @@ public class ChargingService : IChargingService
         foreach (var item in chargings)
             result.Add(ParseToModel(item));
         return result;
+    }
+
+    public Task<ChargingDomainModel> Arrive(ArriveDTO dto)
+    {
+        throw new NotImplementedException();
     }
 
     public static ChargingDomainModel ParseToModel(Charging charging)

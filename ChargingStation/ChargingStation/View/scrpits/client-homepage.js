@@ -22,3 +22,20 @@ function fillLabels(user) {
     document.getElementById("uin").innerHTML = "<strong style='color:#00d6b7'>UIN: </strong>" + user["userIdentificationNumber"]
     document.getElementById("balance").innerHTML = "<strong style='color:#00d6b7'>Balance: </strong>" + user["balance"] + " RSD"
 }
+
+var reservationModal = document.getElementById("reservation-modal");
+var reservationSpan = document.getElementById("reservation-close");
+var btnArrive = document.getElementsByClassName("btn-arrive")[0]
+
+btnArrive.onclick = function() {
+    reservationModal.style.display = "block";
+}
+
+reservationSpan.onclick = function() {
+    reservationModal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == reservationModal) {
+        reservationModal.style.display = "none";
+    }
+}
