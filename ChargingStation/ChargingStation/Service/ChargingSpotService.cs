@@ -27,6 +27,7 @@ public class ChargingSpotService : IChargingSpotService
         List<ChargingSpot> chargingSpots = await _chargingSpotRepository.GetAll();
         foreach (var item in chargingSpots)
         {
+            if (item.State == 3) continue;
             item.State = 0;
             foreach (var reservation in item.Reservations)
             {
