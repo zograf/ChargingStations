@@ -38,38 +38,42 @@ public class ChargingService : IChargingService
 
     public async Task<ChargingDomainModel> Arrive(ArriveDTO dto)
     {
-        ChargingSpot foundSpot = new ChargingSpot();
-        foundSpot = null;
-        foreach (var spot in await _chargingSpotRepository.GetAll())
+        if (dto.StartTime >= dto.EndTime)
+            throw new Exception("Start time is after end time");
+        if (dto.StartTime < DateTime.Now)
+             throw new Exception("Start time is in the past");
+        Charging charging = await FindAvaliableCharging(dto.StartTime, dto.EndTime, dto.CardId);
+        if (charging is null)
+            throw new Exception("Cannot do charging, no avaliable slots");
+        charging = _chargingRepository.Post(charging);
+        _chargingRepository.Save();
+        return ParseToModel(charging);
+    }
+
+    private async Task<Charging> FindAvaliableCharging(DateTime start, DateTime end, decimal cardId)
+    {
+        IEnumerable<ChargingSpotDomainModel> spots = await _chargingSpotService.GetForSuddenArrival();
+        foreach (ChargingSpotDomainModel spot in spots)
         {
             if (spot.State == 0)
             {
-                foundSpot = spot;
-                break;
+                decimal duration = (decimal)(end - start).TotalHours;
+                decimal price = await _priceService.GetPrice(spot.StationId, start);
+                return new Charging
+                {
+                    ElectricitySpent = duration,
+                    TotalPrice = duration * price,
+                    StartTime = start,
+                    EndTime = end,
+                    ChargingSpotId = spot.Id,
+                    CardId = cardId,
+                    IsDeleted = false,
+                    UnitPrice = price,
+                };
             }
+
         }
-
-        if (foundSpot == null) return null;
-
-        Charging charging = new Charging
-        {
-            StartTime = dto.StartTime,
-            EndTime = dto.EndTime,
-            CardId = dto.CardId,
-            ChargingSpotId = foundSpot.Id,
-            IsDeleted = false,
-            ReservationId = null,
-            UnitPrice = await _priceService.GetPrice(foundSpot.StationId, dto.StartTime)
-        };
-        decimal duration = (decimal)(dto.EndTime - dto.StartTime).TotalHours;
-        Card card = await _cardRepository.GetById(dto.CardId);
-        Vehicle vehicle = await _vehicleRepository.GetById(card.VehicleId);
-        decimal totalPrice = charging.UnitPrice * duration * vehicle.Power;
-        charging.TotalPrice = totalPrice;
-        charging.ElectricitySpent = duration;
-        Charging newCharging = _chargingRepository.Post(charging);
-        _chargingRepository.Save();
-        return ParseToModel(charging);
+        return null;
     }
 
     public static ChargingDomainModel ParseToModel(Charging charging)
