@@ -19,12 +19,19 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 function makeSpots(spots) {
-    let spotsContainer = document.getElementById("charging-slots");
+    let spotsContainer = document.getElementById("charging-spots");
     for (let i = 0; i < spots.length; ++i) {
         let spotDiv = document.createElement("div");
         spotDiv.setAttribute("class", "spot");
-        spotDiv.textContent = spots[i]["id"]
+        var spotLink = document.createElement("a");
+        spotLink.textContent = spots[i]["id"]
+        spotLink.setAttribute("onclick", "viewSchedule(" + spots[i]["id"] + ")");
+        spotDiv.appendChild(spotLink);
         console.log(spots[i]);
         spotsContainer.appendChild(spotDiv);
     }
+}
+
+function viewSchedule(spotId) {
+    window.location.href = "reservation-schedule.html?spotId=" + spotId;
 }

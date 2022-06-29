@@ -39,11 +39,11 @@ public class ReservationController : ControllerBase
         return Ok(reservation);
     }
 
-    [HttpPost]
-    [Route("reserved-slots")]
-    public async Task<ActionResult<List<Tuple<DateTime, DateTime>>>> GetReservedTimeSlots(decimal slotId)
+    [HttpGet]
+    [Route("reserved-slots={spotId}")]
+    public async Task<ActionResult<List<Tuple<DateTime, DateTime>>>> GetReservedTimeSlots(decimal spotId)
     {
-        IEnumerable<Tuple<DateTime, DateTime>> reservationTimeSlots = await _reservationService.GetReservedTimeSlots(slotId);
+        IEnumerable<Tuple<DateTime, DateTime>> reservationTimeSlots = await _reservationService.GetReservedTimeSlots(spotId);
         return Ok(reservationTimeSlots);
     }
     
